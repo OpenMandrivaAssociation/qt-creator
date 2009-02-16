@@ -23,8 +23,8 @@ development environment (IDE) designed to make development with the Qt applicati
 %files
 %defattr(-,root,root,-)
 %_bindir/qtcreator
-%dir %_libdir/qtcreator
-%_libdir/qtcreator/*
+%dir %_prefix/lib/qtcreator
+%_prefix/lib/qtcreator/*
 %dir %_datadir/qtcreator
 %_datadir/qtcreator/*
 %_datadir/pixmaps/*
