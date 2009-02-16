@@ -12,6 +12,7 @@ Source0: %{name}-%{version}.%{git_date}.tar.bz2
 BuildRequires: qt4-devel >= 2:4.5.0
 BuildRequires: qt4-qdoc3
 BuildRequires: cmake
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 %description
 Qt Creator (previously known as Project Greenhouse) is a new, lightweight, cross-platform integrated 
