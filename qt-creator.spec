@@ -6,11 +6,16 @@ Summary: Qt Creator is a lightweight, cross-platform integrated·development env
 Group: Development/KDE and Qt
 URL: http://www.qtsoftware.com/developer/qt-creator
 Source0: http://download.qtsoftware.com/qtcreator/%name-%version-src.zip
+Source1: nokia-qtcreator-icons.tar.bz2
+Source2: Nokia-QtCreator.xml
+Source3: qtcreator.desktop
 Patch0: qt-creator-1.0.0-cmake.patch
+Patch1: qt-creator-1.0.0-cmake-source.patch
 BuildRequires: qt4-devel >= 2:4.5.0
 BuildRequires: qt4-qdoc3
 BuildRequires: qt4-assistant
 BuildRequires: cmake
+BuildRequires: automoc4
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 
 %description
@@ -25,6 +30,9 @@ development environment (IDE) designed to make development with the Qt applicati
 %_datadir/qtcreator/*
 %_datadir/pixmaps/*
 %qt4plugins/Nokia/*
+%_datadir/icons/*/*/*/Nokia-QtCreator.png
+%_datadir/mime/*
+%_datadir/applications/qtcreator.desktop
 
 #------------------------------------------------------------------------------
 
@@ -116,6 +124,7 @@ Qt Creator core library
 %prep
 %setup -qn %name-%version-src
 %patch0 -p1
+%patch1 -p1
 
 %build
 export QTDIR=%{qt4dir}
@@ -125,8 +134,19 @@ export QTDIR=%{qt4dir}
 %install
 rm -rf %{buildroot}
 
-export QTDIR=%{qt4dir}
-%makeinstall_std DESTDIR=%buildroot -C build
+%makeinstall_std -C build DESTDIR=%buildroot
+
+tar xfj %{SOURCE1}
+for size in 16 32 48 64 128; do
+	mkdir -p %buildroot/%_datadir/icons/oxygen/${size}x${size}/apps
+	mv Nokia-QtCreator-${size}.png %buildroot/%_datadir/icons/oxygen/${size}x${size}/apps/Nokia-QtCreator.png
+done
+
+mkdir -p %buildroot/%_datadir/mime
+install -m 0644 %{SOURCE2} %buildroot/%_datadir/mime
+
+mkdir -p %buildroot/%_datadir/applications
+install -m 0644 %{SOURCE3} %buildroot/%_datadir/applications
 
 %clean
 rm -rf %buildroot
