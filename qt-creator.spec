@@ -1,6 +1,6 @@
 Name: qt-creator
 Version: 1.0.0
-Release: %mkrel 3
+Release: %mkrel 4
 License: LGPLv2+ and MIT
 Summary: Qt Creator is a lightweight, cross-platform integrated·development environment (IDE)
 Group: Development/KDE and Qt
@@ -11,12 +11,16 @@ Source2: Nokia-QtCreator.xml
 Source3: qtcreator.desktop
 Patch0: qt-creator-1.0.0-cmake.patch
 Patch1: qt-creator-1.0.0-cmake-source.patch
+BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildRequires: qt4-devel >= 2:4.5.0
 BuildRequires: qt4-qdoc3
 BuildRequires: qt4-assistant
 BuildRequires: cmake
 BuildRequires: automoc4
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
+Suggests: qt4-designer
+Suggests: qt4-assistant
+Suggests: qt4-devel
+Suggests: cmake
 
 %description
 Qt Creator (previously known as Project Greenhouse) is a new, lightweight, cross-platform integrated 
@@ -118,6 +122,20 @@ Qt Creator core library
 %defattr(-,root,root,-)
 %_libdir/libQtConcurrent.so.*
 %exclude %_libdir/libQtConcurrent.so
+
+#------------------------------------------------------------------------------
+
+%package doc
+Summary: Qt Creator documentation
+Group: Development/KDE and Qt
+Suggests: qt4-doc
+
+%description doc
+Qt Creator documentation.
+
+%files doc
+%defattr(-,root,root,-)
+%_datadir/doc/qtcreator/qtcreator.qch
 
 #------------------------------------------------------------------------------
 
