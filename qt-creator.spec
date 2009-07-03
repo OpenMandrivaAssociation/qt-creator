@@ -1,5 +1,5 @@
 Name: qt-creator
-Version: 1.1.0
+Version: 1.2.0
 Release: %mkrel 1
 License: LGPLv2+ and MIT
 Summary: Qt Creator is a lightweight, cross-platform integrated·development environment (IDE)
@@ -9,8 +9,7 @@ Source0: http://download.qtsoftware.com/qtcreator/%name-%version-src.zip
 Source1: nokia-qtcreator-icons.tar.bz2
 Source2: Nokia-QtCreator.xml
 Source3: qtcreator.desktop
-Patch0: qt-creator-1.1.0-cmake.patch
-Patch1: qt-creator-1.1.0-cmake-source.patch
+Patch0: qt-creator-1.2.0-cmake.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-root
 BuildRequires: qt4-devel >= 2:4.5.0
 BuildRequires: qt4-qdoc3
@@ -30,6 +29,7 @@ development environment (IDE) designed to make development with the Qt applicati
 %defattr(-,root,root,-)
 %doc README
 %_bindir/qtcreator
+%qt4dir/bin/qtcreator_process_stub
 %dir %_datadir/qtcreator
 %_datadir/qtcreator/*
 %_datadir/pixmaps/*
@@ -142,7 +142,6 @@ Qt Creator documentation.
 %prep
 %setup -qn %name-%version-src
 %patch0 -p1
-%patch1 -p1
 
 %build
 export QTDIR=%{qt4dir}
