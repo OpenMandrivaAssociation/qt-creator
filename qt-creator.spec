@@ -1,6 +1,6 @@
 Name: qt-creator
 Version: 1.3.0
-Release: %mkrel -c beta1 3
+Release: %mkrel -c beta1 4
 License: LGPLv2+ and MIT
 Summary: Qt Creator is a lightweight, cross-platform integrated·development environment (IDE)
 Group: Development/KDE and Qt
@@ -26,7 +26,7 @@ development environment (IDE) designed to make development with the Qt applicati
 %doc README
 %_libdir/qtcreator
 %_datadir/icons/*/*/*/Nokia-QtCreator.png
-%_datadir/mime/*
+%_datadir/mime/application/*
 %_datadir/applications/qtcreator.desktop
 
 #------------------------------------------------------------------------------
@@ -58,8 +58,8 @@ for size in 16 32 48 64 128; do
 	mv Nokia-QtCreator-${size}.png %buildroot/%_datadir/icons/oxygen/${size}x${size}/apps/Nokia-QtCreator.png
 done
 
-mkdir -p %buildroot/%_datadir/mime
-install -m 0644 %{SOURCE2} %buildroot/%_datadir/mime
+mkdir -p %buildroot/%_datadir/mime/application
+install -m 0644 %{SOURCE2} %buildroot/%_datadir/mime/application
 
 mkdir -p %buildroot/%_datadir/applications
 
