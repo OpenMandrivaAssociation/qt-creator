@@ -1,6 +1,6 @@
 Name: qt-creator
 Version: 1.3.0
-Release: %mkrel -c beta1 2
+Release: %mkrel -c beta1 3
 License: LGPLv2+ and MIT
 Summary: Qt Creator is a lightweight, cross-platform integrated·development environment (IDE)
 Group: Development/KDE and Qt
@@ -67,8 +67,7 @@ cat > %buildroot/%_datadir/applications/qtcreator.desktop << EOF
 [Desktop Entry]
 Value=1.0
 Type=Application
-Encoding=UTF-8
-Exec=%_libdir/qtcreator/bin/qtcreator %F
+Exec=%_libdir/qtcreator/bin/qtcreator
 Path=%_libdir/qt-creator
 Name=Qt Creator
 GenericName=C++ IDE for developing Qt applications
