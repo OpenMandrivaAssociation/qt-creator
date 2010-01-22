@@ -16,6 +16,7 @@ BuildRequires:	automoc4
 Suggests:	qt4-designer
 Suggests:	qt4-assistant
 Suggests:	qt4-devel
+Obsoletes:	qt-creator-doc < 1.3.1
 
 %description
 Qt Creator (previously known as Project Greenhouse) is a new, lightweight, cross-platform integrated 
