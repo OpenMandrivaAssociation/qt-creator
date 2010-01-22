@@ -76,7 +76,6 @@ mkdir -p %buildroot/%_datadir/applications
 
 cat > %buildroot/%_datadir/applications/qtcreator.desktop << EOF
 [Desktop Entry]
-Value=1.0
 Type=Application
 Exec=%_libdir/qtcreator/bin/qtcreator
 Path=%_libdir/qt-creator
@@ -85,9 +84,8 @@ GenericName=C++ IDE for developing Qt applications
 X-KDE-StartupNotify=true
 Icon=Nokia-QtCreator
 Terminal=false
-Type=Application
-Categories=Development;IDE;Qt
-MimeType=text/x-c++src;text/x-c++hdr;text/x-xsrc;text/x-c++src;application/x-designer;application/vnd.nokia.qt.qmakeprofile;application/vnd.nokia.xml.qt.resource;
+Categories=Development;IDE;Qt;
+MimeType=text/x-c++src;text/x-c++hdr;text/x-xsrc;application/x-designer;application/vnd.nokia.qt.qmakeprofile;application/vnd.nokia.xml.qt.resource;
 InitialPreference=9
 
 EOF
