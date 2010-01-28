@@ -2,7 +2,7 @@ Name:		qt-creator
 Version:	1.3.1
 Release:	%mkrel 2
 License:	LGPLv2+ and MIT
-Summary:	Qt Creator is a lightweight, cross-platform integrated·development environment (IDE)
+Summary:	Qt Creator is a lightweight, cross-platform integrated development environment (IDE)
 Group:		Development/KDE and Qt
 URL:		http://www.qtsoftware.com/developer/qt-creator
 Source0:	http://download.qtsoftware.com/qtcreator/%name-%version-src.zip
