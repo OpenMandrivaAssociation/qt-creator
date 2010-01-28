@@ -16,7 +16,7 @@ BuildRequires:	automoc4
 Suggests:	qt4-designer
 Suggests:	qt4-assistant
 Suggests:	qt4-devel
-Obsoletes:	qt-creator-doc < 1.3.1
+Suggests:	qt-creator-doc
 
 %description
 Qt Creator (previously known as Project Greenhouse) is a new, lightweight, cross-platform integrated 
@@ -27,9 +27,24 @@ development environment (IDE) designed to make development with the Qt applicati
 %doc README
 %_bindir/qtcreator
 %_libdir/qtcreator
+%exclude %{_libdir}/qtcreator/share/doc/qtcreator/qtcreator.qch
 %_datadir/icons/*/*/*/Nokia-QtCreator.png
 %_datadir/mime/application/*
 %_datadir/applications/qtcreator.desktop
+
+#------------------------------------------------------------------------------
+
+%package doc
+Summary: Qt Creator documentation
+Group: Development/KDE and Qt
+Suggests: qt4-doc
+
+%description doc
+Qt Creator documentation.
+
+%files doc
+%defattr(-,root,root,-)
+%{_libdir}/qtcreator/share/doc/qtcreator/qtcreator.qch
 
 #------------------------------------------------------------------------------
 
@@ -50,7 +65,7 @@ rm -rf %{buildroot}
 
 # install the docs
 pushd build
-	%qt4bin/qhelpgenerator -o "share/doc/qtcreator/qtcreator.qch" doc/html/qtcreator.qhp
+	make INSTALL_ROOT=%{buildroot} install_qch_docs
 popd
 
 mkdir -p %{buildroot}/%{_libdir}
@@ -59,6 +74,9 @@ cd %{buildroot}/%{_libdir}/qtcreator
 find . -name Makefile -exec rm -f {} \;
 rm -rf src
 rm -fr doc
+
+# this .qch file is a duplicate, file is already installed
+rm -fr %{buildroot}/share/doc/qtcreator/qtcreator.qch
 
 tar xfj %{SOURCE1}
 for size in 16 32 48 64 128; do
