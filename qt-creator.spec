@@ -9,7 +9,7 @@ Source0:	http://download.qtsoftware.com/qtcreator/%name-%version-src.zip
 Source1:	nokia-qtcreator-icons.tar.bz2
 Source2:	Nokia-QtCreator.xml
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
-BuildRequires:	qt4-devel >= 2:4.5.0
+BuildRequires:	qt4-devel >= 2:4.6.0
 BuildRequires:	qt4-qdoc3
 BuildRequires:	qt4-assistant
 BuildRequires:	automoc4
