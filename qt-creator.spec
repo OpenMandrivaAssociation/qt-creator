@@ -1,11 +1,12 @@
+%define git 74ae6bf
 Name:		qt-creator
-Version:	2.0.1
-Release:	%mkrel 1
+Version:	2.1
+Release:	%mkrel 0.1
 License:	LGPLv2+ and MIT
 Summary:	Qt Creator is a lightweight, cross-platform integrated development environment (IDE)
 Group:		Development/KDE and Qt
 URL:		http://qt.nokia.com/products/appdev/developer-tools/developer-tools#qt-tools-at-a
-Source0:	http://get.qt.nokia.com/qtcreator/%name-%version-src.zip
+Source0:	http://get.qt.nokia.com/qtcreator/%name-%version.%git.tar.bz2
 Source1:	nokia-qtcreator-icons.tar.bz2
 Source2:	Nokia-QtCreator.xml
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -49,7 +50,7 @@ Qt Creator documentation.
 #------------------------------------------------------------------------------
 
 %prep
-%setup -qn %{name}-%{version}-src
+%setup -qn %{name}
 
 %build
 export QTDIR=%{qt4dir}
