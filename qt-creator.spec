@@ -39,6 +39,7 @@ development environment (IDE) designed to make development with the Qt applicati
 Summary: Qt Creator documentation
 Group: Development/KDE and Qt
 Suggests: qt4-doc
+Buildarch: noarch
 
 %description doc
 Qt Creator documentation.
