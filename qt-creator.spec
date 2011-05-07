@@ -32,6 +32,7 @@ fi
 %doc README
 %{_bindir}/qtcreator
 %{_bindir}/qtcreator_process_stub
+%{_bindir}/qtpromaker
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_iconsdir}/*/*/*/Nokia-QtCreator.png
