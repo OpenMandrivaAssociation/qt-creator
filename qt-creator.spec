@@ -65,7 +65,7 @@ export QTDIR=%{qt4dir}
 
 %install
 rm -rf %{buildroot}
-make install INSTALL_ROOT=$RPM_BUILD_ROOT/%{_prefix} install_qch_docs
+make install INSTALL_ROOT=%{buildroot}/%{_prefix} install_qch_docs
 
 for i in 16 24 32 48 64 128 256 512
 do
