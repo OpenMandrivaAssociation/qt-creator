@@ -1,21 +1,21 @@
 Name:		qt-creator
-Version:	2.2.1
+Version:	2.4.0
 Release:	%mkrel 1
 License:	LGPLv2+ and MIT
 Summary:	Qt Creator is a lightweight, cross-platform integrated development environment (IDE)
 Group:		Development/KDE and Qt
 URL:		http://qt.nokia.com/products/developer-tools
-Source0:	http://get.qt.nokia.com/qtcreator/%name-%version-src.zip
+Source0:	http://get.qt.nokia.com/qtcreator/%name-%version-src.tar.gz
 Source2:	Nokia-QtCreator.xml
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
-BuildRequires:	qt4-devel >= 2:4.7.0
+BuildRequires:	qt4-devel >= 4:4.7.4
+BuildRequires:	qt4-devel-private >= 4:4.7.4
 BuildRequires:	qt4-qdoc3
 BuildRequires:	qt4-assistant
 BuildRequires:	automoc4
 Suggests:	qt4-designer
 Suggests:	qt4-assistant
 Suggests:	qt4-devel
-Suggests:	qt-creator-doc
+#Suggests:	qt-creator-doc
 
 %description
 Qt Creator (previously known as Project Greenhouse) is a new, lightweight, cross-platform integrated 
@@ -31,20 +31,23 @@ fi
 %defattr(-,root,root,-)
 %doc README
 %{_bindir}/qtcreator
+%{_bindir}/qmlpuppet
 %{_bindir}/qtcreator_process_stub
 %{_bindir}/qtpromaker
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
-%{_iconsdir}/*/*/*/Nokia-QtCreator.png
+%{_iconsdir}/*/*/*/qtcreator.png
 %{_datadir}/mime/application/*
 %{_datadir}/applications/qtcreator.desktop
 
 #------------------------------------------------------------------------------
 
+# Looks like we don't have it in 2.4.0 so disable for now
+%if 0
 %package doc
-Summary: Qt Creator documentation
-Group: Development/KDE and Qt
-Suggests: qt4-doc
+Summary:	Qt Creator documentation
+Group:		Development/KDE and Qt
+Suggests:	qt4-doc
 
 %description doc
 Qt Creator documentation.
@@ -52,6 +55,7 @@ Qt Creator documentation.
 %files doc
 %defattr(-,root,root,-)
 %{_datadir}/doc/qtcreator/qtcreator.qch
+%endif
 
 #------------------------------------------------------------------------------
 
@@ -64,25 +68,17 @@ export QTDIR=%{qt4dir}
 %make
 
 %install
-rm -rf %{buildroot}
-make install INSTALL_ROOT=%{buildroot}/%{_prefix} install_qch_docs
+%__rm -rf %{buildroot}
+make install INSTALL_ROOT=%{buildroot}%{_prefix}
 
-for i in 16 24 32 48 64 128 256 512
-do
-mkdir -p %buildroot/%{_datadir}/icons/hicolor/${i}x${i}/apps
-mv -f %buildroot/%{_datadir}/pixmaps/qtcreator_logo_${i}.png \
- %buildroot/%{_datadir}/icons/hicolor/${i}x${i}/apps/Nokia-QtCreator.png
-done
+%__mkdir_p %{buildroot}%{_datadir}/mime/application
+%__install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/application
 
-mkdir -p %{buildroot}/%{_datadir}/mime/application
-install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/application
-
-mkdir -p %{buildroot}/%{_datadir}/applications
-
-cat > %{buildroot}/%{_datadir}/applications/qtcreator.desktop << EOF
+%__mkdir_p %{buildroot}%{_datadir}/applications
+%__cat > %{buildroot}%{_datadir}/applications/qtcreator.desktop << EOF
 [Desktop Entry]
 Type=Application
-Exec=%_bindir/qtcreator
+Exec=%{_bindir}/qtcreator
 Name=Qt Creator
 GenericName=C++ IDE for developing Qt applications
 X-KDE-StartupNotify=true
@@ -91,8 +87,7 @@ Terminal=false
 Categories=Development;IDE;Qt;
 MimeType=text/x-c++src;text/x-c++hdr;text/x-xsrc;application/x-designer;application/vnd.nokia.qt.qmakeprofile;application/vnd.nokia.xml.qt.resource;
 InitialPreference=9
-
 EOF
 
 %clean
-rm -rf %{buildroot}
+%__rm -rf %{buildroot}
