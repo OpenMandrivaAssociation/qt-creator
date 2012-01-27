@@ -2,10 +2,10 @@ Name:		qt-creator
 Version:	2.4.0
 Release:	%mkrel 1
 License:	LGPLv2+ and MIT
-Summary:	Qt Creator is a lightweight, cross-platform integrated development environment (IDE)
+Summary:	Qt Creator is a lightweight, cross-platform IDE
 Group:		Development/KDE and Qt
 URL:		http://qt.nokia.com/products/developer-tools
-Source0:	http://get.qt.nokia.com/qtcreator/%name-%version-src.tar.gz
+Source0:	http://get.qt.nokia.com/qtcreator/%{name}-%{version}-src.tar.gz
 Source2:	Nokia-QtCreator.xml
 BuildRequires:	qt4-devel >= 4:4.7.4
 BuildRequires:	qt4-devel-private >= 4:4.7.4
@@ -18,8 +18,9 @@ Suggests:	qt4-devel
 #Suggests:	qt-creator-doc
 
 %description
-Qt Creator (previously known as Project Greenhouse) is a new, lightweight, cross-platform integrated 
-development environment (IDE) designed to make development with the Qt application framework even faster and easier.
+Qt Creator (previously known as Project Greenhouse) is a new, lightweight,
+cross-platform integrated development environment (IDE) designed to make
+development with the Qt application framework even faster and easier.
 
 %pre
 if [ "$1" == "2" -a -L %{_bindir}/qtcreator ]
