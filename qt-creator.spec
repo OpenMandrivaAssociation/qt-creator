@@ -1,6 +1,6 @@
 Name:		qt-creator
 Version:	2.4.0
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	LGPLv2+ and MIT
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Group:		Development/KDE and Qt
@@ -15,7 +15,7 @@ BuildRequires:	automoc4
 Suggests:	qt4-designer
 Suggests:	qt4-assistant
 Suggests:	qt4-devel
-#Suggests:	qt-creator-doc
+Suggests:	qt-creator-doc
 
 %description
 Qt Creator (previously known as Project Greenhouse) is a new, lightweight,
@@ -43,8 +43,6 @@ fi
 
 #------------------------------------------------------------------------------
 
-# Looks like we don't have it in 2.4.0 so disable for now
-%if 0
 %package doc
 Summary:	Qt Creator documentation
 Group:		Development/KDE and Qt
@@ -56,7 +54,7 @@ Qt Creator documentation.
 %files doc
 %defattr(-,root,root,-)
 %{_datadir}/doc/qtcreator/qtcreator.qch
-%endif
+%{_datadir}/doc/qtcreator/qtcreator-dev.qch
 
 #------------------------------------------------------------------------------
 
@@ -67,10 +65,11 @@ Qt Creator documentation.
 export QTDIR=%{qt4dir}
 %qmake_qt4 -r IDE_LIBRARY_BASENAME=%{_lib}
 %make
+%make docs
 
 %install
 %__rm -rf %{buildroot}
-make install INSTALL_ROOT=%{buildroot}%{_prefix}
+make install INSTALL_ROOT=%{buildroot}%{_prefix} install_docs
 
 %__mkdir_p %{buildroot}%{_datadir}/mime/application
 %__install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/application
