@@ -1,6 +1,6 @@
 Name:		qt-creator
-Version:	2.4.0
-Release:	%mkrel 2
+Version:	2.4.1
+Release:	%mkrel 1
 License:	LGPLv2+ and MIT
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Group:		Development/KDE and Qt
@@ -15,6 +15,7 @@ BuildRequires:	automoc4
 Suggests:	qt4-designer
 Suggests:	qt4-assistant
 Suggests:	qt4-devel
+Suggests:	qt4-qmlviewer
 Suggests:	qt-creator-doc
 
 %description
@@ -32,6 +33,7 @@ fi
 %defattr(-,root,root,-)
 %doc README
 %{_bindir}/qtcreator
+%{_bindir}/qmlprofiler
 %{_bindir}/qmlpuppet
 %{_bindir}/qtcreator_process_stub
 %{_bindir}/qtpromaker
