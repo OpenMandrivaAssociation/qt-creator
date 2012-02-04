@@ -1,6 +1,6 @@
 Name:		qt-creator
 Version:	2.4.1
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	LGPLv2+ and MIT
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Group:		Development/KDE and Qt
@@ -84,7 +84,7 @@ Exec=%{_bindir}/qtcreator
 Name=Qt Creator
 GenericName=C++ IDE for developing Qt applications
 X-KDE-StartupNotify=true
-Icon=Nokia-QtCreator
+Icon=qtcreator
 Terminal=false
 Categories=Development;IDE;Qt;
 MimeType=text/x-c++src;text/x-c++hdr;text/x-xsrc;application/x-designer;application/vnd.nokia.qt.qmakeprofile;application/vnd.nokia.xml.qt.resource;
