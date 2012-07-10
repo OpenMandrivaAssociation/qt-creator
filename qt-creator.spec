@@ -1,6 +1,6 @@
 Name:		qt-creator
 Version:	2.5.0
-Release:	%mkrel 1
+Release:	2
 License:	LGPLv2+ and MIT
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Group:		Development/KDE and Qt
@@ -40,7 +40,7 @@ fi
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_iconsdir}/*/*/*/qtcreator.png
-%{_datadir}/mime/application/*
+%{_datadir}/mime/packages/*
 %{_datadir}/applications/qtcreator.desktop
 
 #------------------------------------------------------------------------------
@@ -73,8 +73,8 @@ export QTDIR=%{qt4dir}
 %__rm -rf %{buildroot}
 make install INSTALL_ROOT=%{buildroot}%{_prefix} install_docs
 
-%__mkdir_p %{buildroot}%{_datadir}/mime/application
-%__install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/application
+%__mkdir_p %{buildroot}%{_datadir}/mime/packages
+%__install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/packages
 
 %__mkdir_p %{buildroot}%{_datadir}/applications
 %__cat > %{buildroot}%{_datadir}/applications/qtcreator.desktop << EOF
