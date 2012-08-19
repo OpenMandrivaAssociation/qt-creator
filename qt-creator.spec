@@ -1,6 +1,6 @@
 Name:		qt-creator
-Version:	2.5.1
-Release:	2
+Version:	2.5.2
+Release:	1
 License:	LGPLv2+ and MIT
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Group:		Development/KDE and Qt
@@ -91,5 +91,3 @@ MimeType=text/x-c++src;text/x-c++hdr;text/x-xsrc;application/x-designer;applicat
 InitialPreference=9
 EOF
 
-%clean
-%__rm -rf %{buildroot}
