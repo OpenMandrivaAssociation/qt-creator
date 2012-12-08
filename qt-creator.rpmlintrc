@@ -1,0 +1,2 @@
+# Not harmful here
+addFilter("E: binary-or-shlib-defines-rpath")

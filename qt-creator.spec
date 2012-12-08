@@ -1,12 +1,14 @@
 Name:		qt-creator
-Version:	2.5.2
+Version:	2.6.0
 Release:	1
 License:	LGPLv2+ and MIT
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Group:		Development/KDE and Qt
 URL:		http://qt.nokia.com/products/developer-tools
 Source0:	http://get.qt.nokia.com/qtcreator/%{name}-%{version}-src.tar.gz
+Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
+Patch0:		qt-creator-2.6.0-linkage.patch
 BuildRequires:	qt4-devel >= 4:4.7.4
 BuildRequires:	qt4-devel-private >= 4:4.7.4
 BuildRequires:	qt4-qdoc3
@@ -30,16 +32,15 @@ then
 fi
 
 %files
-%defattr(-,root,root,-)
 %doc README
 %{_bindir}/qtcreator
-%{_bindir}/qmlprofiler
 %{_bindir}/qmlpuppet
 %{_bindir}/qtcreator_process_stub
 %{_bindir}/qtpromaker
+%{_bindir}/sdktool
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
-%{_iconsdir}/*/*/*/qtcreator.png
+%{_iconsdir}/*/*/*/QtProject-qtcreator.png
 %{_datadir}/mime/packages/*
 %{_datadir}/applications/qtcreator.desktop
 
@@ -54,7 +55,6 @@ Suggests:	qt4-doc
 Qt Creator documentation.
 
 %files doc
-%defattr(-,root,root,-)
 %{_datadir}/doc/qtcreator/qtcreator.qch
 %{_datadir}/doc/qtcreator/qtcreator-dev.qch
 
@@ -62,6 +62,7 @@ Qt Creator documentation.
 
 %prep
 %setup -qn %{name}-%{version}-src
+%patch0 -p1
 
 %build
 export QTDIR=%{qt4dir}
@@ -70,21 +71,20 @@ export QTDIR=%{qt4dir}
 %make docs
 
 %install
-%__rm -rf %{buildroot}
 make install INSTALL_ROOT=%{buildroot}%{_prefix} install_docs
 
-%__mkdir_p %{buildroot}%{_datadir}/mime/packages
-%__install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/packages
+mkdir -p %{buildroot}%{_datadir}/mime/packages
+install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/packages
 
-%__mkdir_p %{buildroot}%{_datadir}/applications
-%__cat > %{buildroot}%{_datadir}/applications/qtcreator.desktop << EOF
+mkdir -p %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/qtcreator.desktop << EOF
 [Desktop Entry]
 Type=Application
 Exec=%{_bindir}/qtcreator
 Name=Qt Creator
 GenericName=C++ IDE for developing Qt applications
 X-KDE-StartupNotify=true
-Icon=qtcreator
+Icon=QtProject-qtcreator
 Terminal=false
 Categories=Development;IDE;Qt;
 MimeType=text/x-c++src;text/x-c++hdr;text/x-xsrc;application/x-designer;application/vnd.nokia.qt.qmakeprofile;application/vnd.nokia.xml.qt.resource;
