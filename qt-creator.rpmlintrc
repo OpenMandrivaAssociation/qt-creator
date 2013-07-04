@@ -1,2 +1,4 @@
 # Not harmful here
 addFilter("E: binary-or-shlib-defines-rpath")
+# qmake sucks...
+addFilter("E: debuginfo-without-sources")

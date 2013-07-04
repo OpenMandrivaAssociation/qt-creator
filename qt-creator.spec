@@ -1,19 +1,32 @@
+%define beta rc
 Name:		qt-creator
-Version:	2.7.1
+Version:	2.8.0
+%if "%{beta}" != ""
+Release:	0.%{beta}.1
+Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %version |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-%{version}-%{beta}-src.tar.gz
+%else
 Release:	1
+Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %version |cut -d. -f1-2)/%{version}/qt-creator-%{version}-src.tar.gz
+%endif
 License:	LGPLv2+ and MIT
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Group:		Development/KDE and Qt
-URL:		http://qt.nokia.com/products/developer-tools
-Source0:	http://get.qt.nokia.com/qtcreator/%{name}-%{version}-src.tar.gz
+URL:		http://qt.digia.com/products/developer-tools
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
 Patch0:		qt-creator-2.7.0-linkage.patch
-BuildRequires:	qt4-devel >= 4:4.8.0
-BuildRequires:	qt4-devel-private >= 4:4.8.0
-BuildRequires:	qt4-qdoc3
-BuildRequires:	qt4-assistant
-BuildRequires:	automoc4
+# Ensure we build with Qt5 support
+BuildRequires:	qmake5
+BuildRequires:	pkgconfig(Qt5Core)
+BuildRequires:	pkgconfig(Qt5Gui)
+BuildRequires:	pkgconfig(Qt5Network)
+BuildRequires:	pkgconfig(Qt5Widgets)
+BuildRequires:	pkgconfig(Qt5Concurrent)
+BuildRequires:	pkgconfig(Qt5Sql)
+BuildRequires:	pkgconfig(Qt5X11Extras)
+BuildRequires:	qt5-tools
+BuildRequires:	qt5-linguist-tools
+BuildRequires:	qdoc5
 Suggests:	qt4-designer
 Suggests:	qt4-assistant
 Suggests:	qt4-devel
@@ -35,6 +48,7 @@ fi
 %doc README
 %{_bindir}/qtcreator
 %{_bindir}/qmlpuppet
+%{_bindir}/qml2puppet
 %{_bindir}/qtcreator_process_stub
 %{_bindir}/qtpromaker
 %{_bindir}/sdktool
@@ -61,17 +75,29 @@ Qt Creator documentation.
 #------------------------------------------------------------------------------
 
 %prep
+%if "%{beta}" != ""
+%setup -qn %{name}-%{version}-%{beta}-src
+%else
 %setup -qn %{name}-%{version}-src
+%endif
 %patch0 -p1
 
 %build
-export QTDIR=%{qt4dir}
-%qmake_qt4 -r IDE_LIBRARY_BASENAME=%{_lib}
-%make
+qmake-qt5 -r IDE_LIBRARY_BASENAME=%{_lib}
+%make STRIP=/bin/true
 %make docs
 
 %install
-make install INSTALL_ROOT=%{buildroot}%{_prefix} install_docs
+make install STRIP=/bin/true INSTALL_ROOT=%{buildroot}%{_prefix} install_docs
+
+# Prevent "same build ID in nonidentical files" in all the binaries
+pushd %{buildroot}%{_bindir}
+for i in *; do
+	if [ "$i" != "qtcreator" ]; then
+		%__strip --strip-unneeded "$i"
+	fi
+done
+popd
 
 mkdir -p %{buildroot}%{_datadir}/mime/packages
 install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/packages

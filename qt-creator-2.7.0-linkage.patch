@@ -1,21 +1,15 @@
-diff -urN qt-creator-2.7.0-src/src/libs/ssh/ssh.pro qt-creator-2.7.0-src-patched/src/libs/ssh/ssh.pro
---- qt-creator-2.7.0-src/src/libs/ssh/ssh.pro	2013-03-21 18:28:37.000000000 +1100
-+++ qt-creator-2.7.0-src-patched/src/libs/ssh/ssh.pro	2013-03-22 02:55:09.944475243 +1100
-@@ -70,3 +70,5 @@
+--- qt-creator-2.8.0-rc-src/src/libs/ssh/ssh.pro.orig	2013-06-26 18:35:04.000000000 +0200
++++ qt-creator-2.8.0-rc-src/src/libs/ssh/ssh.pro	2013-07-04 14:54:14.366257550 +0200
+@@ -67,3 +67,5 @@ HEADERS = $$PWD/sshsendfacility_p.h \
  FORMS = $$PWD/sshkeycreationdialog.ui
  
  include(../3rdparty/botan/botan.pri)
 +
 +unix: LIBS += -ldl
-diff -urN qt-creator-2.7.0-src/src/libs/utils/utils.pro qt-creator-2.7.0-src-patched/src/libs/utils/utils.pro
---- qt-creator-2.7.0-src/src/libs/utils/utils.pro	2013-03-21 18:28:37.000000000 +1100
-+++ qt-creator-2.7.0-src-patched/src/libs/utils/utils.pro	2013-03-22 02:51:11.413558810 +1100
-@@ -12,6 +12,8 @@
-     win32:include(../../private_headers.pri)
- }
- 
-+unix: LIBS += -lX11
-+
+--- qt-creator-2.8.0-rc-src/src/libs/utils/utils.pro.orig	2013-07-04 14:54:14.366257550 +0200
++++ qt-creator-2.8.0-rc-src/src/libs/utils/utils.pro	2013-07-04 14:54:40.306545708 +0200
+@@ -20,3 +20,4 @@ lessThan(QT_MAJOR_VERSION, 5) {
  win32: LIBS += -luser32
  # PortsGatherer
  win32: LIBS += -liphlpapi -lws2_32
++unix: LIBS += -lX11
