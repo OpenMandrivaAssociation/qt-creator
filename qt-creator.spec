@@ -15,23 +15,26 @@ URL:		http://qt.digia.com/products/developer-tools
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
 Patch0:		qt-creator-2.7.0-linkage.patch
-# Ensure we build with Qt5 support
+# For the Qt5 build...
 BuildRequires:	qmake5
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Network)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5Concurrent)
+BuildRequires:	pkgconfig(Qt5Declarative)
 BuildRequires:	pkgconfig(Qt5Sql)
 BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	qt5-tools
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	qdoc5
-Suggests:	qt4-designer
-Suggests:	qt4-assistant
-Suggests:	qt4-devel
-Suggests:	qt4-qmlviewer
+Suggests:	qt5-designer
+Suggests:	qt5-assistant
+Suggests:	qt5-devel
+Suggests:	qt5-qml-tools
 Suggests:	qt-creator-doc
+Requires:	%{name}-common = %{EVRD}
+Provides:	%{name}-ui = %{EVRD}
 
 %description
 Qt Creator (previously known as Project Greenhouse) is a new, lightweight,
@@ -54,9 +57,59 @@ fi
 %{_bindir}/sdktool
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
+%{_datadir}/applications/qtcreator.desktop
+
+#------------------------------------------------------------------------------
+
+%package qt4
+Summary:	Qt Creator IDE for Qt 4.x
+Group:		Development/KDE and Qt
+# For the Qt4 build...
+BuildRequires:	qmake5
+BuildRequires:	pkgconfig(QtCore)
+BuildRequires:	pkgconfig(QtGui)
+BuildRequires:	pkgconfig(QtNetwork)
+BuildRequires:	pkgconfig(QtSql)
+BuildRequires:	qt4-linguist
+BuildRequires:	qt4-qdoc3
+Suggests:	qt4-designer
+Suggests:	qt4-assistant
+Suggests:	qt4-devel
+Suggests:	qt4-qmlviewer
+Suggests:	qt-creator-doc
+Requires:	%{name}-common = %{EVRD}
+Provides:	%{name}-ui = %{EVRD}
+
+%description qt4
+Qt Creator (previously known as Project Greenhouse) is a new, lightweight,
+cross-platform integrated development environment (IDE) designed to make
+development with the Qt application framework even faster and easier.
+
+This version uses and targets Qt 4.x.
+
+%files qt4
+%doc README
+%{_prefix}/lib/qt4/bin/qtcreator
+%{_prefix}/lib/qt4/bin/qtcreator_process_stub
+%{_prefix}/lib/qt4/bin/qtpromaker
+%{_prefix}/lib/qt4/bin/sdktool
+%{_prefix}/lib/qt4/%{_lib}/qtcreator
+%{_prefix}/lib/qt4/share/qtcreator
+%{_datadir}/applications/qtcreator-qt4.desktop
+
+#------------------------------------------------------------------------------
+%package common
+Summary:	Files used by both Qt Creator Qt4 and Qt Creator Qt5
+Group:		Development/KDE and Qt
+Requires:	%{name}-ui = %{EVRD}
+BuildArch:	noarch
+
+%description common
+Files used by both Qt Creator Qt4 and Qt Creator Qt5
+
+%files common
 %{_iconsdir}/*/*/*/QtProject-qtcreator.png
 %{_datadir}/mime/packages/*
-%{_datadir}/applications/qtcreator.desktop
 
 #------------------------------------------------------------------------------
 
@@ -83,12 +136,27 @@ Qt Creator documentation.
 %patch0 -p1
 
 %build
+# Build a version for Qt 4.x
+qmake -r IDE_LIBRARY_BASENAME=%{_lib}
+%make STRIP=/bin/true
+mkdir bin-qt4
+make install STRIP=/bin/true INSTALL_ROOT=`pwd`/bin-qt4
+
+# And one for Qt 5.x
+make distclean
 qmake-qt5 -r IDE_LIBRARY_BASENAME=%{_lib}
 %make STRIP=/bin/true
 %make docs
 
 %install
+# Install the Qt 5.x version
 make install STRIP=/bin/true INSTALL_ROOT=%{buildroot}%{_prefix} install_docs
+
+# And the Qt 4.x version
+mkdir -p %{buildroot}%{_prefix}/lib/qt4
+cp -a bin-qt4/* %{buildroot}%{_prefix}/lib/qt4
+# We share the icons with Qt 5.x
+rm -rf %{buildroot}%{_prefix}/lib/qt4/share/icons
 
 # Prevent "same build ID in nonidentical files" in all the binaries
 pushd %{buildroot}%{_bindir}
@@ -117,3 +185,16 @@ MimeType=text/x-c++src;text/x-c++hdr;text/x-xsrc;application/x-designer;applicat
 InitialPreference=9
 EOF
 
+cat > %{buildroot}%{_datadir}/applications/qtcreator-qt4.desktop << EOF
+[Desktop Entry]
+Type=Application
+Exec=%{_prefix}/lib/qt4/bin/qtcreator
+Name=Qt Creator
+GenericName=C++ IDE for developing Qt applications
+X-KDE-StartupNotify=true
+Icon=QtProject-qtcreator
+Terminal=false
+Categories=Development;IDE;Qt;
+MimeType=text/x-c++src;text/x-c++hdr;text/x-xsrc;application/x-designer;application/vnd.nokia.qt.qmakeprofile;application/vnd.nokia.xml.qt.resource;
+InitialPreference=9
+EOF
