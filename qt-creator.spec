@@ -71,6 +71,7 @@ BuildRequires:	pkgconfig(QtCore)
 BuildRequires:	pkgconfig(QtGui)
 BuildRequires:	pkgconfig(QtNetwork)
 BuildRequires:	pkgconfig(QtSql)
+BuildRequires:	pkgconfig(QtWebKit)
 BuildRequires:	qt4-devel-private
 BuildRequires:	qt4-linguist
 BuildRequires:	qt4-qdoc3
