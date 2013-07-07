@@ -1,17 +1,18 @@
 %define beta rc
+
+Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
 Version:	2.8.0
 %if "%{beta}" != ""
-Release:	0.%{beta}.1
-Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %version |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-%{version}-%{beta}-src.tar.gz
+Release:	0.%{beta}.2
+Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-%{version}-%{beta}-src.tar.gz
 %else
 Release:	1
-Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %version |cut -d. -f1-2)/%{version}/qt-creator-%{version}-src.tar.gz
+Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-%{version}-src.tar.gz
 %endif
 License:	LGPLv2+ and MIT
-Summary:	Qt Creator is a lightweight, cross-platform IDE
 Group:		Development/KDE and Qt
-URL:		http://qt.digia.com/products/developer-tools
+Url:		http://qt.digia.com/products/developer-tools
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
 Patch0:		qt-creator-2.7.0-linkage.patch
@@ -65,11 +66,11 @@ fi
 Summary:	Qt Creator IDE for Qt 4.x
 Group:		Development/KDE and Qt
 # For the Qt4 build...
-BuildRequires:	qmake5
 BuildRequires:	pkgconfig(QtCore)
 BuildRequires:	pkgconfig(QtGui)
 BuildRequires:	pkgconfig(QtNetwork)
 BuildRequires:	pkgconfig(QtSql)
+BuildRequires:	qt4-devel-private
 BuildRequires:	qt4-linguist
 BuildRequires:	qt4-qdoc3
 Suggests:	qt4-designer
@@ -89,6 +90,7 @@ This version uses and targets Qt 4.x.
 
 %files qt4
 %doc README
+%{_prefix}/lib/qt4/bin/qmlpuppet
 %{_prefix}/lib/qt4/bin/qtcreator
 %{_prefix}/lib/qt4/bin/qtcreator_process_stub
 %{_prefix}/lib/qt4/bin/qtpromaker
@@ -105,7 +107,7 @@ Requires:	%{name}-ui = %{EVRD}
 BuildArch:	noarch
 
 %description common
-Files used by both Qt Creator Qt4 and Qt Creator Qt5
+Files used by both Qt Creator Qt4 and Qt Creator Qt5.
 
 %files common
 %{_iconsdir}/*/*/*/QtProject-qtcreator.png
@@ -189,8 +191,8 @@ cat > %{buildroot}%{_datadir}/applications/qtcreator-qt4.desktop << EOF
 [Desktop Entry]
 Type=Application
 Exec=%{_prefix}/lib/qt4/bin/qtcreator
-Name=Qt Creator
-GenericName=C++ IDE for developing Qt applications
+Name=Qt Creator (Qt4)
+GenericName=C++ IDE for developing Qt4 applications
 X-KDE-StartupNotify=true
 Icon=QtProject-qtcreator
 Terminal=false
