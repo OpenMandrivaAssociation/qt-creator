@@ -1,10 +1,10 @@
-%define beta rc
+%define beta %{nil}
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
 Version:	2.8.0
 %if "%{beta}" != ""
-Release:	0.%{beta}.2
+Release:	0.%{beta}.1
 Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-%{version}-%{beta}-src.tar.gz
 %else
 Release:	1
@@ -146,15 +146,16 @@ Qt Creator documentation.
 %patch0 -p1
 
 %build
+%global optflags %{optflags} -Wstrict-aliasing=0
 # Build a version for Qt 4.x
-qmake -r IDE_LIBRARY_BASENAME=%{_lib}
+%qmake_qt4 -r IDE_LIBRARY_BASENAME=%{_lib}
 %make STRIP=/bin/true
 mkdir bin-qt4
 make install STRIP=/bin/true INSTALL_ROOT=`pwd`/bin-qt4
 
 # And one for Qt 5.x
 make distclean
-qmake-qt5 -r IDE_LIBRARY_BASENAME=%{_lib}
+%qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib}
 %make STRIP=/bin/true
 %make docs
 
