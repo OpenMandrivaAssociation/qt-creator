@@ -146,7 +146,7 @@ Qt Creator documentation.
 %patch0 -p1
 
 %build
-%global optflags %{optflags} -Wstrict-aliasing=0
+%global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
 # Build a version for Qt 4.x
 %qmake_qt4 -r IDE_LIBRARY_BASENAME=%{_lib}
 %make STRIP=/bin/true
