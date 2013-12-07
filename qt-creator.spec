@@ -7,7 +7,7 @@ Version:	2.8.1
 Release:	0.%{beta}.1
 Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-%{version}-%{beta}-src.tar.gz
 %else
-Release:	3
+Release:	4
 Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-%{version}-src.tar.gz
 %endif
 License:	LGPLv2+ and MIT
