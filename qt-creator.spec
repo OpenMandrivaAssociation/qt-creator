@@ -1,14 +1,18 @@
 %define beta %{nil}
 
+# These are private, filter them
+%define __noautoprov 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)'
+%define __noautoreq 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)'
+
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	2.8.0
+Version:	3.0.0
 %if "%{beta}" != ""
 Release:	0.%{beta}.1
 Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-%{version}-%{beta}-src.tar.gz
 %else
 Release:	2
-Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-%{version}-src.tar.gz
+Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
 %endif
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
@@ -141,12 +145,12 @@ Qt Creator documentation.
 %if "%{beta}" != ""
 %setup -qn %{name}-%{version}-%{beta}-src
 %else
-%setup -qn %{name}-%{version}-src
+%setup -qn %{name}-opensource-src-%{version}
 %endif
 %patch0 -p1
 
 %build
-%global optflags %{optflags} -Wstrict-aliasing=0
+%global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
 # Build a version for Qt 4.x
 %qmake_qt4 -r IDE_LIBRARY_BASENAME=%{_lib}
 %make STRIP=/bin/true

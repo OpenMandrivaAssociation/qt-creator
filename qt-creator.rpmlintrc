@@ -1,4 +1,4 @@
-# Not harmful here
-addFilter("E: binary-or-shlib-defines-rpath")
 # qmake sucks...
 addFilter("E: debuginfo-without-sources")
+addFilter("E: devel-file-in-non-devel-package")
+addFilter("W: devel-file-in-non-devel-package")
