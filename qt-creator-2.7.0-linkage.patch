@@ -1,15 +1,24 @@
---- qt-creator-2.8.0-rc-src/src/libs/ssh/ssh.pro.orig	2013-06-26 18:35:04.000000000 +0200
-+++ qt-creator-2.8.0-rc-src/src/libs/ssh/ssh.pro	2013-07-04 14:54:14.366257550 +0200
-@@ -67,3 +67,5 @@ HEADERS = $$PWD/sshsendfacility_p.h \
+--- qt-creator-opensource-src-3.1.0/src/libs/ssh/ssh.pro.0000~	2014-04-14 13:44:57.000000000 +0200
++++ qt-creator-opensource-src-3.1.0/src/libs/ssh/ssh.pro	2014-04-29 08:29:39.405554057 +0200
+@@ -69,3 +69,5 @@ HEADERS = $$PWD/sshsendfacility_p.h \
  FORMS = $$PWD/sshkeycreationdialog.ui
  
  include(../3rdparty/botan/botan.pri)
 +
 +unix: LIBS += -ldl
---- qt-creator-2.8.0-rc-src/src/libs/utils/utils.pro.orig	2013-07-04 14:54:14.366257550 +0200
-+++ qt-creator-2.8.0-rc-src/src/libs/utils/utils.pro	2013-07-04 14:54:40.306545708 +0200
-@@ -20,3 +20,4 @@ lessThan(QT_MAJOR_VERSION, 5) {
- win32: LIBS += -luser32
- # PortsGatherer
- win32: LIBS += -liphlpapi -lws2_32
-+unix: LIBS += -lX11
+--- qt-creator-opensource-src-3.1.0/src/libs/utils/utils.pro.0000~	2014-04-14 13:44:57.000000000 +0200
++++ qt-creator-opensource-src-3.1.0/src/libs/utils/utils.pro	2014-04-29 08:35:47.475287978 +0200
+@@ -7,11 +7,13 @@ lessThan(QT_MAJOR_VERSION, 5) {
+ #   Needed for QtCore/private/qwineventnotifier_p.h
+     win32:include(../../private_headers.pri)
+     linux-*: DEFINES += QTC_USE_QX11INFO
++    unix: LIBS += -lX11
+ } else:linux-* {
+     !isEmpty(QT.x11extras.name) {
+         QT += x11extras
+         CONFIG += x11
+         DEFINES += QTC_USE_QX11INFO
++        LIBS += -lX11
+     } else {
+         warning("x11extras module not found, raising the main window might not work. " \
+                 "(The x11extras module is part of Qt 5.1 and later.)")

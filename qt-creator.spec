@@ -6,12 +6,12 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	3.0.0
+Version:	3.1.0
 %if "%{beta}" != ""
 Release:	0.%{beta}.1
 Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-%{version}-%{beta}-src.tar.gz
 %else
-Release:	2
+Release:	1
 Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
 %endif
 License:	LGPLv2+ and MIT
@@ -61,6 +61,7 @@ fi
 
 %files
 %doc README
+%{_bindir}/buildoutputparser
 %{_bindir}/qtcreator
 %{_bindir}/qmlpuppet
 %{_bindir}/qml2puppet
@@ -102,6 +103,7 @@ This version uses and targets Qt 4.x.
 
 %files qt4
 %doc README
+%{_prefix}/lib/qt4/bin/buildoutputparser
 %{_prefix}/lib/qt4/bin/qmlpuppet
 %{_prefix}/lib/qt4/bin/qtcreator
 %{_prefix}/lib/qt4/bin/qtcreator_process_stub
@@ -147,7 +149,7 @@ Qt Creator documentation.
 %else
 %setup -qn %{name}-opensource-src-%{version}
 %endif
-%patch0 -p1
+%apply_patches
 
 %build
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
