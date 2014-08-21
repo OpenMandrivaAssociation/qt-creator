@@ -1,25 +1,18 @@
-%define beta %{nil}
-
 # These are private, filter them
-%define __noautoprov 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)'
-%define __noautoreq 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)'
+%define __noautoprov 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
+%define __noautoreq 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	3.1.0
-%if "%{beta}" != ""
-Release:	0.%{beta}.1
-Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-%{version}-%{beta}-src.tar.gz
-%else
-Release:	3
-Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
-%endif
+Version:	3.2.0
+Release:	1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
+Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
-Patch0:		qt-creator-2.7.0-linkage.patch
+Patch0:		qt-creator-3.2.0-linkage.patch
 # For the Qt5 build...
 BuildRequires:	qmake5
 BuildRequires:	pkgconfig(Qt5Concurrent)
@@ -31,6 +24,7 @@ BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Help)
 BuildRequires:	pkgconfig(Qt5Network)
 BuildRequires:	pkgconfig(Qt5PrintSupport)
+BuildRequires:	pkgconfig(Qt5QuickWidgets)
 BuildRequires:	pkgconfig(Qt5Sql)
 BuildRequires:	pkgconfig(Qt5Svg)
 BuildRequires:	pkgconfig(Qt5Test)
@@ -40,6 +34,7 @@ BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	qt5-tools
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	qdoc5
+Suggests:	qbs
 Suggests:	qt5-designer
 Suggests:	qt5-assistant
 Suggests:	qt5-devel
@@ -69,6 +64,7 @@ fi
 %{_bindir}/qtpromaker
 %{_bindir}/sdktool
 %{_libdir}/qtcreator
+%exclude %{_libdir}/qtcreator/qbs
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
 
@@ -114,6 +110,7 @@ This version uses and targets Qt 4.x.
 %{_datadir}/applications/qtcreator-qt4.desktop
 
 #------------------------------------------------------------------------------
+
 %package common
 Summary:	Files used by both Qt Creator Qt4 and Qt Creator Qt5
 Group:		Development/KDE and Qt
@@ -143,13 +140,24 @@ Qt Creator documentation.
 
 #------------------------------------------------------------------------------
 
+%package -n qbs
+Summary:	Qt Build Suite is the next-generation build system using QML dialect
+Group:		Development/KDE and Qt
+Obsoletes:	qbs-examples < 1.2
+
+%description -n qbs
+QBS builds applications based on the information in a project file that you
+specify in a QML dialect. Unlike cmake it doesn't generates makefiles.
+
+%files -n qbs
+%{_bindir}/qbs*
+%{_libdir}/qtcreator/qbs
+
+#------------------------------------------------------------------------------
+
 %prep
-%if "%{beta}" != ""
-%setup -qn %{name}-%{version}-%{beta}-src
-%else
 %setup -qn %{name}-opensource-src-%{version}
-%endif
-%apply_patches
+%patch0 -p1
 
 %build
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
@@ -179,7 +187,7 @@ rm -rf %{buildroot}%{_prefix}/lib/qt4/share/icons
 pushd %{buildroot}%{_bindir}
 for i in *; do
 	if [ "$i" != "qtcreator" ]; then
-		%__strip --strip-unneeded "$i"
+		strip --strip-unneeded "$i"
 	fi
 done
 popd
