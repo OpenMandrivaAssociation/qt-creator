@@ -31,7 +31,7 @@ BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
-BuildRequires:	qt5-tools
+BuildRequires:	qt5-qttools
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	qdoc5
 Suggests:	qbs
