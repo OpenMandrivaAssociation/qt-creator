@@ -34,6 +34,8 @@ BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	qt5-qttools
 BuildRequires:	qt5-linguist-tools
+BuildRequires:	qt5-qtquickwidgets-private-devel
+BuildRequires:	qt5-qtquick-private-devel
 BuildRequires:	qdoc5
 Suggests:	qbs
 Suggests:	qt5-designer
