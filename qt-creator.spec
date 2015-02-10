@@ -2,6 +2,8 @@
 %define __noautoprov 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
 %define __noautoreq 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
 
+%bcond_with docs
+
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
 Version:	3.3.0
@@ -37,6 +39,7 @@ BuildRequires:	qt5-linguist-tools
 BuildRequires:	qt5-qtquickwidgets-private-devel
 BuildRequires:	qt5-qtquick-private-devel
 BuildRequires:	qdoc5
+BuildRequires:	%{_lib}qt5declarative-private-devel
 Suggests:	qbs
 Suggests:	qt5-designer
 Suggests:	qt5-assistant
@@ -86,7 +89,7 @@ Files used by both Qt Creator Qt4 and Qt Creator Qt5.
 %{_datadir}/mime/packages/*
 
 #------------------------------------------------------------------------------
-
+%if %{with docs}
 %package doc
 Summary:	Qt Creator documentation
 Group:		Development/KDE and Qt
@@ -98,7 +101,7 @@ Qt Creator documentation.
 %files doc
 %{_datadir}/doc/qtcreator/qtcreator.qch
 %{_datadir}/doc/qtcreator/qtcreator-dev.qch
-
+%endif
 #------------------------------------------------------------------------------
 
 %package -n qbs
@@ -124,11 +127,16 @@ specify in a QML dialect. Unlike cmake it doesn't generates makefiles.
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
 %qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib}
 %make STRIP=/bin/true
-%make docs
+%if %{with docs}
+make qch_docs
+%endif
 
 %install
 # Install the Qt 5.x version
-make install STRIP=/bin/true INSTALL_ROOT=%{buildroot}%{_prefix} install_docs
+make install STRIP=/bin/true INSTALL_ROOT=%{buildroot}%{_prefix} \
+%if %{with docs}
+ install_docs
+%endif
 
 # Prevent "same build ID in nonidentical files" in all the binaries
 pushd %{buildroot}%{_bindir}
