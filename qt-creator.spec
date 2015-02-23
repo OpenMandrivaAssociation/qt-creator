@@ -1,27 +1,23 @@
-%define beta %{nil}
-
 # These are private, filter them
-%define __noautoprov 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)'
-%define __noautoreq 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)'
+%define __noautoprov 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
+%define __noautoreq 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
+
+%bcond_with docs
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	3.0.0
-%if "%{beta}" != ""
-Release:	0.%{beta}.1
-Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-%{version}-%{beta}-src.tar.gz
-%else
+Version:	3.3.0
 Release:	2
-Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
-%endif
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
+Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
-Patch0:		qt-creator-2.7.0-linkage.patch
+Patch0:		qt-creator-3.2.0-linkage.patch
 # For the Qt5 build...
 BuildRequires:	qmake5
+BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5Concurrent)
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Declarative)
@@ -31,21 +27,26 @@ BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Help)
 BuildRequires:	pkgconfig(Qt5Network)
 BuildRequires:	pkgconfig(Qt5PrintSupport)
+BuildRequires:	pkgconfig(Qt5QuickWidgets)
 BuildRequires:	pkgconfig(Qt5Sql)
 BuildRequires:	pkgconfig(Qt5Svg)
 BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
-BuildRequires:	qt5-tools
+BuildRequires:	qt5-qttools
 BuildRequires:	qt5-linguist-tools
+BuildRequires:	qt5-qtquickwidgets-private-devel
+BuildRequires:	qt5-qtquick-private-devel
 BuildRequires:	qdoc5
+BuildRequires:	%{_lib}qt5declarative-private-devel
+Suggests:	qbs
 Suggests:	qt5-designer
 Suggests:	qt5-assistant
 Suggests:	qt5-devel
 Suggests:	qt5-qml-tools
 Suggests:	qt-creator-doc
-Requires:	%{name}-common = %{EVRD}
+Requires:	%{name}-common
 Provides:	%{name}-ui = %{EVRD}
 
 %description
@@ -61,6 +62,7 @@ fi
 
 %files
 %doc README
+%{_bindir}/buildoutputparser
 %{_bindir}/qtcreator
 %{_bindir}/qmlpuppet
 %{_bindir}/qml2puppet
@@ -68,54 +70,15 @@ fi
 %{_bindir}/qtpromaker
 %{_bindir}/sdktool
 %{_libdir}/qtcreator
+%exclude %{_libdir}/qtcreator/plugins/qbs
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
 
 #------------------------------------------------------------------------------
 
-%package qt4
-Summary:	Qt Creator IDE for Qt 4.x
-Group:		Development/KDE and Qt
-# For the Qt4 build...
-BuildRequires:	pkgconfig(QtCore)
-BuildRequires:	pkgconfig(QtGui)
-BuildRequires:	pkgconfig(QtNetwork)
-BuildRequires:	pkgconfig(QtSql)
-BuildRequires:	pkgconfig(QtWebKit)
-BuildRequires:	qt4-devel-private
-BuildRequires:	qt4-linguist
-BuildRequires:	qt4-qdoc3
-Suggests:	qt4-designer
-Suggests:	qt4-assistant
-Suggests:	qt4-devel
-Suggests:	qt4-qmlviewer
-Suggests:	qt-creator-doc
-Requires:	%{name}-common = %{EVRD}
-Provides:	%{name}-ui = %{EVRD}
-
-%description qt4
-Qt Creator (previously known as Project Greenhouse) is a new, lightweight,
-cross-platform integrated development environment (IDE) designed to make
-development with the Qt application framework even faster and easier.
-
-This version uses and targets Qt 4.x.
-
-%files qt4
-%doc README
-%{_prefix}/lib/qt4/bin/qmlpuppet
-%{_prefix}/lib/qt4/bin/qtcreator
-%{_prefix}/lib/qt4/bin/qtcreator_process_stub
-%{_prefix}/lib/qt4/bin/qtpromaker
-%{_prefix}/lib/qt4/bin/sdktool
-%{_prefix}/lib/qt4/%{_lib}/qtcreator
-%{_prefix}/lib/qt4/share/qtcreator
-%{_datadir}/applications/qtcreator-qt4.desktop
-
-#------------------------------------------------------------------------------
 %package common
 Summary:	Files used by both Qt Creator Qt4 and Qt Creator Qt5
 Group:		Development/KDE and Qt
-Requires:	%{name}-ui = %{EVRD}
 BuildArch:	noarch
 
 %description common
@@ -126,11 +89,11 @@ Files used by both Qt Creator Qt4 and Qt Creator Qt5.
 %{_datadir}/mime/packages/*
 
 #------------------------------------------------------------------------------
-
+%if %{with docs}
 %package doc
 Summary:	Qt Creator documentation
 Group:		Development/KDE and Qt
-Suggests:	qt4-doc
+Suggests:	qt5-doc
 
 %description doc
 Qt Creator documentation.
@@ -138,46 +101,48 @@ Qt Creator documentation.
 %files doc
 %{_datadir}/doc/qtcreator/qtcreator.qch
 %{_datadir}/doc/qtcreator/qtcreator-dev.qch
+%endif
+#------------------------------------------------------------------------------
+
+%package -n qbs
+Summary:	Qt Build Suite is the next-generation build system using QML dialect
+Group:		Development/KDE and Qt
+Obsoletes:	qbs-examples < 1.2
+
+%description -n qbs
+QBS builds applications based on the information in a project file that you
+specify in a QML dialect. Unlike cmake it doesn't generates makefiles.
+
+%files -n qbs
+%{_bindir}/qbs*
+%{_libdir}/qtcreator/plugins/qbs
 
 #------------------------------------------------------------------------------
 
 %prep
-%if "%{beta}" != ""
-%setup -qn %{name}-%{version}-%{beta}-src
-%else
 %setup -qn %{name}-opensource-src-%{version}
-%endif
 %patch0 -p1
 
 %build
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
-# Build a version for Qt 4.x
-%qmake_qt4 -r IDE_LIBRARY_BASENAME=%{_lib}
-%make STRIP=/bin/true
-mkdir bin-qt4
-make install STRIP=/bin/true INSTALL_ROOT=`pwd`/bin-qt4
-
-# And one for Qt 5.x
-make distclean
 %qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib}
 %make STRIP=/bin/true
-%make docs
+%if %{with docs}
+make qch_docs
+%endif
 
 %install
 # Install the Qt 5.x version
-make install STRIP=/bin/true INSTALL_ROOT=%{buildroot}%{_prefix} install_docs
-
-# And the Qt 4.x version
-mkdir -p %{buildroot}%{_prefix}/lib/qt4
-cp -a bin-qt4/* %{buildroot}%{_prefix}/lib/qt4
-# We share the icons with Qt 5.x
-rm -rf %{buildroot}%{_prefix}/lib/qt4/share/icons
+make install STRIP=/bin/true INSTALL_ROOT=%{buildroot}%{_prefix} \
+%if %{with docs}
+ install_docs
+%endif
 
 # Prevent "same build ID in nonidentical files" in all the binaries
 pushd %{buildroot}%{_bindir}
 for i in *; do
 	if [ "$i" != "qtcreator" ]; then
-		%__strip --strip-unneeded "$i"
+		strip --strip-unneeded "$i"
 	fi
 done
 popd
@@ -200,16 +165,3 @@ MimeType=text/x-c++src;text/x-c++hdr;text/x-xsrc;application/x-designer;applicat
 InitialPreference=9
 EOF
 
-cat > %{buildroot}%{_datadir}/applications/qtcreator-qt4.desktop << EOF
-[Desktop Entry]
-Type=Application
-Exec=%{_prefix}/lib/qt4/bin/qtcreator
-Name=Qt Creator (Qt4)
-GenericName=C++ IDE for developing Qt4 applications
-X-KDE-StartupNotify=true
-Icon=QtProject-qtcreator
-Terminal=false
-Categories=Development;IDE;Qt;
-MimeType=text/x-c++src;text/x-c++hdr;text/x-xsrc;application/x-designer;application/vnd.nokia.qt.qmakeprofile;application/vnd.nokia.xml.qt.resource;
-InitialPreference=9
-EOF
