@@ -17,7 +17,6 @@ Source2:	Nokia-QtCreator.xml
 Patch0:		qt-creator-3.2.0-linkage.patch
 # For the Qt5 build...
 BuildRequires:	qmake5
-BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5Concurrent)
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Declarative)
@@ -33,10 +32,9 @@ BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
-BuildRequires:	qt5-qttools
+BuildRequires:	qt5-tools
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	qdoc5
-Suggests:	qbs
 Suggests:	qt5-designer
 Suggests:	qt5-assistant
 Suggests:	qt5-devel
