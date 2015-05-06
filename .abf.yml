@@ -1,3 +1,5 @@
+removed_sources:
+  qt-creator-opensource-src-3.3.1.tar.gz: de39fd3049c8a2d73bc234e899fd69ddc11a3de8
 sources:
   Nokia-QtCreator.xml: 0e143733ca654f0d1756eedc26948e9e503c4a3a
-  qt-creator-opensource-src-3.3.1.tar.gz: de39fd3049c8a2d73bc234e899fd69ddc11a3de8
+  qt-creator-opensource-src-3.4.0.tar.gz: 69924071ad5455c9faf0a2b909519e5a14866bca
