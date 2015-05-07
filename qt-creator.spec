@@ -34,6 +34,7 @@ BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
+BuildRequires:	pkgconfig(botan-1.10)
 BuildRequires:	qt5-qttools
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	qt5-qtquickwidgets-private-devel
@@ -125,7 +126,7 @@ specify in a QML dialect. Unlike cmake it doesn't generates makefiles.
 
 %build
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
-%qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib}
+%qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib} USE_SYSTEM_BOTAN=1
 %make STRIP=/bin/true CC=%{__cc} CXX=%{__cxx}
 %if %{with docs}
 make qch_docs
