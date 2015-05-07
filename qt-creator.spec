@@ -7,7 +7,7 @@
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
 Version:	3.4.0
-Release:	2
+Release:	3
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
@@ -34,7 +34,7 @@ BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
-BuildRequires:	pkgconfig(botan-1.10)
+BuildRequires:	botan-devel
 BuildRequires:	qt5-qttools
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	qt5-qtquickwidgets-private-devel
