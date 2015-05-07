@@ -7,7 +7,7 @@
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
 Version:	3.4.0
-Release:	1
+Release:	2
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
@@ -126,7 +126,7 @@ specify in a QML dialect. Unlike cmake it doesn't generates makefiles.
 %build
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
 %qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib}
-%make STRIP=/bin/true
+%make STRIP=/bin/true CC=%{__cc} CXX=%{__cxx}
 %if %{with docs}
 make qch_docs
 %endif
