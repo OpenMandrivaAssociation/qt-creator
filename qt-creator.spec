@@ -66,13 +66,13 @@ fi
 
 %files
 %doc README.md
-%{_libexecdir}/buildoutputparser
+%{_libexecdir}/qtcreator/buildoutputparser
 %{_bindir}/qtcreator
-%{_libexecdir}/qmlpuppet
-%{_libexecdir}/qml2puppet
-%{_libexecdir}/qtcreator_process_stub
-%{_libexecdir}/qtpromaker
-%{_libexecdir}/sdktool
+%{_libexecdir}/qtcreator/qmlpuppet
+%{_libexecdir}/qtcreator/qml2puppet
+%{_libexecdir}/qtcreator/qtcreator_process_stub
+%{_libexecdir}/qtcreator/qtpromaker
+%{_libexecdir}/qtcreator/sdktool
 %{_libdir}/qtcreator
 %exclude %{_libdir}/qtcreator/plugins/qbs
 %{_datadir}/qtcreator
