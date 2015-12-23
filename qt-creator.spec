@@ -33,7 +33,7 @@ BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
-BuildRequires:	botan-devel
+BuildRequires:	pkgconfig(botan-1.10)
 BuildRequires:	qt5-qttools
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	qt5-qtquickwidgets-private-devel
