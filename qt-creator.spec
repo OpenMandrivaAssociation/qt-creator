@@ -122,7 +122,7 @@ specify in a QML dialect. Unlike cmake it doesn't generates makefiles.
 %setup -qn %{name}-opensource-src-%{version}
 %apply_patches
 # use botan 1.11
-sed -i 's/botan-1.10/botan-1.11/' src/libs/ssh/ssh.qbs
+sed -i 's/botan-1.10/botan-1.11/' src/libs/ssh/ssh.qbs src/libs/3rdparty/botan/botan.pri
 
 %build
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
