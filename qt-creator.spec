@@ -6,15 +6,14 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	3.4.0
-Release:	5
+Version:	3.6.0
+Release:	1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
 Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
-Patch0:		qt-creator-3.2.0-linkage.patch
 # For the Qt5 build...
 BuildRequires:	qmake5
 BuildRequires:	qt5-devel
@@ -40,7 +39,6 @@ BuildRequires:	qt5-linguist-tools
 BuildRequires:	qt5-qtquickwidgets-private-devel
 BuildRequires:	qt5-qtquick-private-devel
 BuildRequires:	qdoc5
-BuildRequires:	%{_lib}qt5declarative-private-devel
 Suggests:	qbs
 Suggests:	qt5-designer
 Suggests:	qt5-assistant
@@ -63,13 +61,13 @@ fi
 
 %files
 %doc README.md
-%{_bindir}/buildoutputparser
+%{_libexecdir}/buildoutputparser
 %{_bindir}/qtcreator
-%{_bindir}/qmlpuppet
-%{_bindir}/qml2puppet
-%{_bindir}/qtcreator_process_stub
-%{_bindir}/qtpromaker
-%{_bindir}/sdktool
+%{_libexecdir}/qmlpuppet
+%{_libexecdir}/qml2puppet
+%{_libexecdir}/qtcreator_process_stub
+%{_libexecdir}/qtpromaker
+%{_libexecdir}/sdktool
 %{_libdir}/qtcreator
 %exclude %{_libdir}/qtcreator/plugins/qbs
 %{_datadir}/qtcreator
@@ -122,7 +120,7 @@ specify in a QML dialect. Unlike cmake it doesn't generates makefiles.
 
 %prep
 %setup -qn %{name}-opensource-src-%{version}
-%patch0 -p1
+%apply_patches
 
 %build
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
