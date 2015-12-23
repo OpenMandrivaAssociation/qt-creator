@@ -68,7 +68,7 @@ fi
 %doc README.md
 %{_libexecdir}/qtcreator/buildoutputparser
 %{_bindir}/qtcreator
-%{_libexecdir}/qtcreator/qmlpuppet
+%{_libexecdir}/qtcreator/cpaster
 %{_libexecdir}/qtcreator/qml2puppet
 %{_libexecdir}/qtcreator/qtcreator_process_stub
 %{_libexecdir}/qtcreator/qtpromaker
