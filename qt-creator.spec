@@ -33,7 +33,7 @@ BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
-BuildRequires:	pkgconfig(botan-1.10)
+BuildRequires:	pkgconfig(botan-1.11)
 BuildRequires:	qt5-qttools
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	qt5-qtquickwidgets-private-devel
@@ -121,6 +121,8 @@ specify in a QML dialect. Unlike cmake it doesn't generates makefiles.
 %prep
 %setup -qn %{name}-opensource-src-%{version}
 %apply_patches
+# use botan 1.11
+sed -i 's/botan-1.10/botan-1.11/' src/libs/ssh/ssh.qbs
 
 %build
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
