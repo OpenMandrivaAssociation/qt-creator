@@ -9,7 +9,7 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	3.6.0
+Version:	4.2.2
 Release:	1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
@@ -23,8 +23,7 @@ BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(Qt5Concurrent)
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Declarative)
-BuildRequires:	pkgconfig(Qt5Designer)
-BuildRequires:	pkgconfig(Qt5DesignerComponents)
+BuildRequires:	cmake(Qt5Designer)
 BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Help)
 BuildRequires:	pkgconfig(Qt5Network)
@@ -77,6 +76,8 @@ fi
 %exclude %{_libdir}/qtcreator/plugins/qbs
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
+%{_datadir}/applications/org.qt-project.qtcreator.desktop
+%{_datadir}/metainfo/org.qt-project.qtcreator.appdata.xml
 
 #------------------------------------------------------------------------------
 
