@@ -35,6 +35,7 @@ BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
+BuildRequires:	%{_lib}qt5designercomponents-devel
 %if %{with sys_botan}
 BuildRequires:	pkgconfig(botan-1.11)
 %endif
