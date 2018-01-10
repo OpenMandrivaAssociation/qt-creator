@@ -9,7 +9,7 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	4.2.2
+Version:	4.5.0
 Release:	1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
@@ -68,7 +68,10 @@ fi
 %doc README.md
 %{_libexecdir}/qtcreator/buildoutputparser
 %{_bindir}/qtcreator
+%dir %{_libexecdir}/qtcreator
 %{_libexecdir}/qtcreator/cpaster
+%{_libexecdir}/qtcreator/dmgbuild
+%{_libexecdir}/qtcreator/qbs_processlauncher
 %{_libexecdir}/qtcreator/qml2puppet
 %{_libexecdir}/qtcreator/qtcreator_process_stub
 %{_libexecdir}/qtcreator/qtpromaker
