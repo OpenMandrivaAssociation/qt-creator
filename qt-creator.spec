@@ -2,14 +2,14 @@
 %bcond_with sys_botan
 
 # These are private, filter them
-%define __noautoprov 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
-%define __noautoreq 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
+%define __provides_exclude 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
+%define __requires_exclude 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
 
 %bcond_with docs
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	4.8.2
+Version:	4.9.0
 Release:	1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
@@ -45,7 +45,9 @@ BuildRequires:	qt5-linguist-tools
 BuildRequires:	qt5-qtquickwidgets-private-devel
 BuildRequires:	qt5-qtquick-private-devel
 BuildRequires:	qdoc5
-Suggests:	qbs
+BuildRequires:	qbs-devel < 4.5.0
+Obsoletes:	qbs > 4.2.2
+Suggests:	qbs < 4.5.0
 Suggests:	qt5-designer
 Suggests:	qt5-assistant
 Suggests:	qt5-devel
@@ -79,7 +81,6 @@ fi
 %{_libexecdir}/qtcreator/qtpromaker
 %{_libexecdir}/qtcreator/sdktool
 %{_libdir}/qtcreator
-%exclude %{_libdir}/qtcreator/plugins/qbs
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
 %{_datadir}/applications/org.qt-project.qtcreator.desktop
@@ -115,24 +116,11 @@ Qt Creator documentation.
 %endif
 #------------------------------------------------------------------------------
 
-%package -n qbs
-Summary:	Qt Build Suite is the next-generation build system using QML dialect
-Group:		Development/KDE and Qt
-Obsoletes:	qbs-examples < 1.2
-
-%description -n qbs
-QBS builds applications based on the information in a project file that you
-specify in a QML dialect. Unlike cmake it doesn't generates makefiles.
-
-%files -n qbs
-%{_bindir}/qbs*
-%{_libdir}/qtcreator/plugins/qbs
-
-#------------------------------------------------------------------------------
-
 %prep
 %setup -qn %{name}-opensource-src-%{version}
-%apply_patches
+
+# remove bundled qbs
+rm -rf src/shared/qbs
 
 %build
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
