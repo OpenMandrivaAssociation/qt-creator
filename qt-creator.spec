@@ -28,14 +28,18 @@ BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Help)
 BuildRequires:	pkgconfig(Qt5Network)
 BuildRequires:	pkgconfig(Qt5PrintSupport)
+BuildRequires:	pkgconfig(Qt5Quick)
 BuildRequires:	pkgconfig(Qt5QuickWidgets)
+BuildRequires:	pkgconfig(Qt5SerialPort)
 BuildRequires:	pkgconfig(Qt5Sql)
 BuildRequires:	pkgconfig(Qt5Svg)
 BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
+BuildRequires:	pkgconfig(Qt5Qml)
 BuildRequires:	cmake(Clang)
+BuildRequires:	cmake(LLVM)
 BuildRequires:	%{_lib}qt5designercomponents-devel
 %if %{with sys_botan}
 BuildRequires:	pkgconfig(botan-1.11)
@@ -64,7 +68,7 @@ development with the Qt application framework even faster and easier.
 %pre
 if [ "$1" == "2" -a -L %{_bindir}/qtcreator ]
 then
-	rm -f %{_bindir}/qtcreator
+    rm -f %{_bindir}/qtcreator
 fi
 
 %files
@@ -75,7 +79,6 @@ fi
 %{_libexecdir}/qtcreator/clangbackend
 %{_libexecdir}/qtcreator/cpaster
 %{_libexecdir}/qtcreator/dmgbuild
-%{_libexecdir}/qtcreator/qbs_processlauncher
 %{_libexecdir}/qtcreator/qml2puppet
 %{_libexecdir}/qtcreator/qtcreator_process_stub
 %{_libexecdir}/qtcreator/qtpromaker
@@ -129,7 +132,7 @@ rm -rf src/shared/qbs
  USE_SYSTEM_BOTAN=1
 %endif
 
-%make STRIP=/bin/true CC=%{__cc} CXX=%{__cxx}
+%make_build STRIP=/bin/true CC=%{__cc} CXX=%{__cxx}
 %if %{with docs}
 make qch_docs
 %endif
@@ -142,13 +145,13 @@ make install STRIP=/bin/true INSTALL_ROOT=%{buildroot}%{_prefix} \
 %endif
 
 # Prevent "same build ID in nonidentical files" in all the binaries
-pushd %{buildroot}%{_bindir}
+cd %{buildroot}%{_bindir}
 for i in *; do
 	if [ "$i" != "qtcreator" ]; then
 		strip --strip-unneeded "$i"
 	fi
 done
-popd
+cd -
 
 mkdir -p %{buildroot}%{_datadir}/mime/packages
 install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/packages
