@@ -1,9 +1,6 @@
 # qt-creator (as of 3.6.0) not compatible with botan 1.11
 %bcond_with sys_botan
-
-# These are private, filter them
-%define __provides_exclude 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
-%define __requires_exclude 'libAggregation\\.so\\.1(.*)|libCPlusPlus\\.so\\.1(.*)|libExtensionSystem\\.so\\.1(.*)|libGLSL\\.so\\.1(.*)|libLanguageUtils\\.so\\.1(.*)|libQmlDebug\\.so\\.1(.*)|libQmlEditorWidgets\\.so\\.1(.*)|libQmlJS\\.so\\.1(.*)|libQtcSsh\\.so\\.1(.*)|libUtils\\.so\\.1(.*)|libqbscore\\.so\\.1(.*)|libqbsqtprofilesetup\\.so\\.1(.*)|libzeroconf\\.so\\.1(.*)|devel\\((.*)'
+%define __brp_python_bytecompile %{nil}
 
 %bcond_with docs
 
@@ -48,6 +45,7 @@ BuildRequires:	qt5-qttools
 BuildRequires:	qt5-linguist-tools
 BuildRequires:	qt5-qtquickwidgets-private-devel
 BuildRequires:	qt5-qtquick-private-devel
+BuildRequires:	qt5-qtquickcontrols
 BuildRequires:	qdoc5
 BuildRequires:	qbs-devel < 4.5.0
 Obsoletes:	qbs > 4.2.2
@@ -128,6 +126,7 @@ rm -rf src/shared/qbs
 %build
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
 %qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib} \
+    QTC_ENABLE_CLANG_LIBTOOLING=1 \
 %if %{with sys_botan}
  USE_SYSTEM_BOTAN=1
 %endif
