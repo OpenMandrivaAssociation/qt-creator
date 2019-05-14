@@ -124,6 +124,11 @@ Qt Creator documentation.
 rm -rf src/shared/qbs
 
 %build
+%ifarch %{ix86}
+export CC=gcc
+export CXX=g++
+%endif
+
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
 %qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib} \
     QTC_ENABLE_CLANG_LIBTOOLING=1 \
