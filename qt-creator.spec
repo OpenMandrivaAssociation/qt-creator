@@ -127,6 +127,7 @@ rm -rf src/shared/qbs
 %ifarch %{ix86}
 #BUILDSTDERR: /tmp/lto-llvm-1e17fd.o:ld-temp.o:function sqlite3VdbeExec: error: undefined reference to '__mulodi4'
 %define _disable_lto 1
+%define _disable_ld_no_undefined 1
 export CC=gcc
 export CXX=g++
 %endif
