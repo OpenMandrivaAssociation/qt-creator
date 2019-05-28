@@ -6,7 +6,7 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	4.9.0
+Version:	4.9.1
 Release:	1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
@@ -76,6 +76,7 @@ fi
 %dir %{_libexecdir}/qtcreator
 %{_libexecdir}/qtcreator/clangbackend
 %{_libexecdir}/qtcreator/cpaster
+%{_libexecdir}/qtcreator/perfparser
 %{_libexecdir}/qtcreator/qml2puppet
 %{_libexecdir}/qtcreator/qtcreator_process_stub
 %{_libexecdir}/qtcreator/qtpromaker
@@ -126,10 +127,7 @@ rm -rf src/shared/qbs
 %build
 %ifarch %{ix86}
 #BUILDSTDERR: /tmp/lto-llvm-1e17fd.o:ld-temp.o:function sqlite3VdbeExec: error: undefined reference to '__mulodi4'
-%define _disable_lto 1
-%define _disable_ld_no_undefined 1
-export CC=gcc
-export CXX=g++
+%global optflags %{optflags} --rtlib=compiler-rt
 %endif
 
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
