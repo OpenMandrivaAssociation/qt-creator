@@ -1,5 +1,5 @@
-# qt-creator (as of 3.6.0) not compatible with botan 1.11
-%bcond_with sys_botan
+# qt-creator doesn't always work with current Botan versions
+%bcond_without sys_botan
 %define __brp_python_bytecompile %{nil}
 
 %bcond_with docs
@@ -7,13 +7,14 @@
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
 Version:	4.9.2
-Release:	1
+Release:	2
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
 Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
+Patch0:		qt-creator-llvm-9.patch
 # For the Qt5 build...
 BuildRequires:	qmake5
 BuildRequires:	qt5-devel
@@ -39,7 +40,7 @@ BuildRequires:	cmake(Clang)
 BuildRequires:	cmake(LLVM)
 BuildRequires:	%{_lib}qt5designercomponents-devel
 %if %{with sys_botan}
-BuildRequires:	pkgconfig(botan-1.11)
+BuildRequires:	pkgconfig(botan-2)
 %endif
 BuildRequires:	qt5-qttools
 BuildRequires:	qt5-linguist-tools
@@ -119,7 +120,7 @@ Qt Creator documentation.
 #------------------------------------------------------------------------------
 
 %prep
-%setup -qn %{name}-opensource-src-%{version}
+%autosetup -p1 -n %{name}-opensource-src-%{version}
 
 # remove bundled qbs
 rm -rf src/shared/qbs
@@ -132,9 +133,9 @@ rm -rf src/shared/qbs
 
 %global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
 %qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib} \
-    QTC_ENABLE_CLANG_LIBTOOLING=1 \
+	QTC_ENABLE_CLANG_LIBTOOLING=1 \
 %if %{with sys_botan}
- USE_SYSTEM_BOTAN=1
+	USE_SYSTEM_BOTAN=1
 %endif
 
 %make_build STRIP=/bin/true CC=%{__cc} CXX=%{__cxx}

@@ -1,0 +1,12 @@
+diff -up qt-creator-opensource-src-4.9.2/src/plugins/clangformat/clangformatutils.cpp.omv~ qt-creator-opensource-src-4.9.2/src/plugins/clangformat/clangformatutils.cpp
+--- qt-creator-opensource-src-4.9.2/src/plugins/clangformat/clangformatutils.cpp.omv~	2019-08-28 01:08:32.737382805 +0200
++++ qt-creator-opensource-src-4.9.2/src/plugins/clangformat/clangformatutils.cpp	2019-08-28 01:14:44.376741523 +0200
+@@ -60,7 +60,7 @@ static clang::format::FormatStyle qtcSty
+     style.AllowShortBlocksOnASingleLine = false;
+     style.AllowShortCaseLabelsOnASingleLine = false;
+     style.AllowShortFunctionsOnASingleLine = FormatStyle::SFS_Inline;
+-    style.AllowShortIfStatementsOnASingleLine = false;
++    style.AllowShortIfStatementsOnASingleLine = clang::format::FormatStyle::ShortIfStyle::SIS_Never;
+     style.AllowShortLoopsOnASingleLine = false;
+     style.AlwaysBreakAfterReturnType = FormatStyle::RTBS_None;
+     style.AlwaysBreakBeforeMultilineStrings = false;
