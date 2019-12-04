@@ -39,6 +39,7 @@ BuildRequires:	pkgconfig(Qt5Qml)
 BuildRequires:	cmake(Clang)
 BuildRequires:	cmake(LLVM)
 BuildRequires:	%{_lib}qt5designercomponents-devel
+BuildRequires:  qt5-qtqmlmodels-private-devel
 %if %{with sys_botan}
 BuildRequires:	pkgconfig(botan-2)
 %endif
