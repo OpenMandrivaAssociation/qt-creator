@@ -14,7 +14,7 @@ Url:		http://qt.digia.com/products/developer-tools
 Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
-Patch0:		qt-creator-llvm-9.patch
+#Patch0:		qt-creator-llvm-9.patch
 # For the Qt5 build...
 BuildRequires:	qmake5
 BuildRequires:	qt5-devel
