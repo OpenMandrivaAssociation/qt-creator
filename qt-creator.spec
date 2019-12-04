@@ -6,15 +6,14 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	4.9.2
-Release:	2
+Version:	4.10.2
+Release:	1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
 Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
-Patch0:		qt-creator-llvm-9.patch
 # For the Qt5 build...
 BuildRequires:	qmake5
 BuildRequires:	qt5-devel
@@ -39,6 +38,7 @@ BuildRequires:	pkgconfig(Qt5Qml)
 BuildRequires:	cmake(Clang)
 BuildRequires:	cmake(LLVM)
 BuildRequires:	%{_lib}qt5designercomponents-devel
+BuildRequires:  qt5-qtqmlmodels-private-devel
 %if %{with sys_botan}
 BuildRequires:	pkgconfig(botan-2)
 %endif
@@ -77,12 +77,13 @@ fi
 %dir %{_libexecdir}/qtcreator
 %{_libexecdir}/qtcreator/clangbackend
 %{_libexecdir}/qtcreator/cpaster
-%{_libexecdir}/qtcreator/perfparser
 %{_libexecdir}/qtcreator/qml2puppet
 %{_libexecdir}/qtcreator/qtcreator_process_stub
 %{_libexecdir}/qtcreator/qtpromaker
 %{_libexecdir}/qtcreator/qtc-askpass
 %{_libexecdir}/qtcreator/sdktool
+%{_libexecdir}/qtcreator/clangpchmanagerbackend
+%{_libexecdir}/qtcreator/clangrefactoringbackend
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
