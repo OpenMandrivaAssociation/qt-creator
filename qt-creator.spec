@@ -78,7 +78,6 @@ fi
 %dir %{_libexecdir}/qtcreator
 %{_libexecdir}/qtcreator/clangbackend
 %{_libexecdir}/qtcreator/cpaster
-%{_libexecdir}/qtcreator/perfparser
 %{_libexecdir}/qtcreator/qml2puppet
 %{_libexecdir}/qtcreator/qtcreator_process_stub
 %{_libexecdir}/qtcreator/qtpromaker
