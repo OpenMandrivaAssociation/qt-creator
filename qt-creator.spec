@@ -6,7 +6,7 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	4.11.0
+Version:	4.11.1
 Release:	1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
