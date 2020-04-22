@@ -4,14 +4,20 @@
 
 %bcond_with docs
 
+%define beta rc1
+
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	4.11.1
-Release:	1
+Version:	4.12.0
+Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
+%if %{?beta:1}0
+Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-opensource-src-%{version}-%{beta}.tar.gz
+%else
 Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
+%endif
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
 # For the Qt5 build...
@@ -84,6 +90,7 @@ fi
 %{_libexecdir}/qtcreator/sdktool
 %{_libexecdir}/qtcreator/clangpchmanagerbackend
 %{_libexecdir}/qtcreator/clangrefactoringbackend
+%{_libexecdir}/qtcreator/perfparser
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
@@ -121,7 +128,7 @@ Qt Creator documentation.
 #------------------------------------------------------------------------------
 
 %prep
-%autosetup -p1 -n %{name}-opensource-src-%{version}
+%autosetup -p1 -n %{name}-opensource-src-%{version}%{?beta:-%{beta}}
 
 # remove bundled qbs
 rm -rf src/shared/qbs
