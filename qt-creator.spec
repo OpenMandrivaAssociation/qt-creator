@@ -4,7 +4,7 @@
 
 %bcond_with docs
 
-%define beta rc1
+#define beta rc1
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
