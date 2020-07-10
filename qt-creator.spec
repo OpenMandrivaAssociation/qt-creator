@@ -90,7 +90,7 @@ fi
 %{_libexecdir}/qtcreator/sdktool
 %{_libexecdir}/qtcreator/clangpchmanagerbackend
 %{_libexecdir}/qtcreator/clangrefactoringbackend
-%{_libexecdir}/qtcreator/perfparser
+#{_libexecdir}/qtcreator/perfparser
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
