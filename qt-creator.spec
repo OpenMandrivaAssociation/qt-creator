@@ -23,9 +23,9 @@ Source2:	Nokia-QtCreator.xml
 # For the Qt5 build...
 BuildRequires:	qmake5
 BuildRequires:	qt5-devel
+BuildRequires:	pkgconfig(libelf)
 BuildRequires:	pkgconfig(Qt5Concurrent)
 BuildRequires:	pkgconfig(Qt5Core)
-#BuildRequires:	pkgconfig(Qt5Declarative)
 BuildRequires:	cmake(Qt5Designer)
 BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Help)
