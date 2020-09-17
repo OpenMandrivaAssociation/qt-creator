@@ -4,11 +4,11 @@
 
 %bcond_with docs
 
-%define beta beta2
+#define beta beta2
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	4.13.0
+Version:	4.13.1
 Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
