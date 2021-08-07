@@ -1,0 +1,33 @@
+diff -up qt-creator-opensource-src-4.15.2/src/plugins/clangformat/clangformatbaseindenter.cpp.omv~ qt-creator-opensource-src-4.15.2/src/plugins/clangformat/clangformatbaseindenter.cpp
+--- qt-creator-opensource-src-4.15.2/src/plugins/clangformat/clangformatbaseindenter.cpp.omv~	2021-08-07 21:08:12.957296989 +0200
++++ qt-creator-opensource-src-4.15.2/src/plugins/clangformat/clangformatbaseindenter.cpp	2021-08-07 21:09:13.950644922 +0200
+@@ -42,7 +42,7 @@ void adjustFormatStyleForLineBreak(clang
+                                    ReplacementsToKeep replacementsToKeep)
+ {
+     style.MaxEmptyLinesToKeep = 100;
+-    style.SortIncludes = false;
++    style.SortIncludes = clang::format::FormatStyle::SortIncludesOptions::SI_Never;
+     style.SortUsingDeclarations = false;
+ 
+     // This is a separate pass, don't do it unless it's the full formatting.
+diff -up qt-creator-opensource-src-4.15.2/src/plugins/clangformat/clangformatutils.cpp.omv~ qt-creator-opensource-src-4.15.2/src/plugins/clangformat/clangformatutils.cpp
+--- qt-creator-opensource-src-4.15.2/src/plugins/clangformat/clangformatutils.cpp.omv~	2021-08-07 21:10:11.524974437 +0200
++++ qt-creator-opensource-src-4.15.2/src/plugins/clangformat/clangformatutils.cpp	2021-08-07 21:11:35.338455777 +0200
+@@ -145,7 +145,7 @@ static clang::format::FormatStyle qtcSty
+     style.PenaltyReturnTypeOnItsOwnLine = 300;
+     style.PointerAlignment = FormatStyle::PAS_Right;
+     style.ReflowComments = false;
+-    style.SortIncludes = true;
++    style.SortIncludes = clang::format::FormatStyle::SortIncludesOptions::SI_CaseInsensitive;
+     style.SortUsingDeclarations = true;
+     style.SpaceAfterCStyleCast = true;
+     style.SpaceAfterTemplateKeyword = false;
+@@ -153,7 +153,7 @@ static clang::format::FormatStyle qtcSty
+     style.SpaceBeforeParens = FormatStyle::SBPO_ControlStatements;
+     style.SpaceInEmptyParentheses = false;
+     style.SpacesBeforeTrailingComments = 1;
+-    style.SpacesInAngles = false;
++    style.SpacesInAngles = clang::format::FormatStyle::SpacesInAnglesStyle::SIAS_Never;
+     style.SpacesInContainerLiterals = false;
+     style.SpacesInCStyleCastParentheses = false;
+     style.SpacesInParentheses = false;
