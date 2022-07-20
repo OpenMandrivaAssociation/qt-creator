@@ -8,8 +8,8 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	4.15.2
-Release:	%{?beta:0.%{beta}.}2
+Version:	8.0.0
+Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
@@ -20,8 +20,9 @@ Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{ver
 %endif
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
-Patch0:		qt-creator-clang-13.patch
+Patch0:		qt-creator-8.0.0-clang-buildfixes.patch
 # For the Qt5 build...
+BuildRequires:	cmake ninja
 BuildRequires:	qmake5
 BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(libelf)
@@ -42,6 +43,7 @@ BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	pkgconfig(Qt5Qml)
+BuildRequires:	cmake(KF5SyntaxHighlighting)
 BuildRequires:	cmake(Clang)
 BuildRequires:	cmake(LLVM)
 BuildRequires:	cmake(Polly)
@@ -72,25 +74,25 @@ Qt Creator (previously known as Project Greenhouse) is a new, lightweight,
 cross-platform integrated development environment (IDE) designed to make
 development with the Qt application framework even faster and easier.
 
-%pre
-if [ "$1" == "2" -a -L %{_bindir}/qtcreator ]
-then
-    rm -f %{_bindir}/qtcreator
-fi
-
 %files
 %doc README.md
 %{_libexecdir}/qtcreator/buildoutputparser
 %{_bindir}/qtcreator
+%{_bindir}/qtcreator.sh
 %dir %{_libexecdir}/qtcreator
-%{_libexecdir}/qtcreator/clangbackend
 %{_libexecdir}/qtcreator/cpaster
 %{_libexecdir}/qtcreator/qml2puppet
 %{_libexecdir}/qtcreator/qtcreator_process_stub
+%{_libexecdir}/qtcreator/qtcreator_processlauncher
 %{_libexecdir}/qtcreator/qtpromaker
 %{_libexecdir}/qtcreator/qtc-askpass
 %{_libexecdir}/qtcreator/sdktool
 %{_libexecdir}/qtcreator/perfparser
+%{_libexecdir}/qtcreator/perf2text
+%{_libexecdir}/qtcreator/cplusplus-ast2png
+%{_libexecdir}/qtcreator/cplusplus-frontend
+%{_libexecdir}/qtcreator/cplusplus-mkvisitor
+%{_libexecdir}/qtcreator/cplusplus-update-frontend
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
@@ -129,43 +131,20 @@ Qt Creator documentation.
 
 %prep
 %autosetup -p1 -n %{name}-opensource-src-%{version}%{?beta:-%{beta}}
-
-# remove bundled qbs
-rm -rf src/shared/qbs
+%if "%{_lib}" != "lib"
+sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
+%endif
+%cmake \
+	-DBUILD_CPLUSPLUS_TOOLS:BOOL=ON \
+	-DCLANGTOOLING_LINK_CLANG_DYLIB:BOOL=ON \
+	-DLITEHTML_UTF8:BOOL=ON \
+	-G Ninja
 
 %build
-%ifarch %{ix86}
-#BUILDSTDERR: /tmp/lto-llvm-1e17fd.o:ld-temp.o:function sqlite3VdbeExec: error: undefined reference to '__mulodi4'
-%global optflags %{optflags} --rtlib=compiler-rt
-%endif
-
-%global optflags %{optflags} -Wstrict-aliasing=0 -Wno-error=strict-overflow
-%qmake_qt5 -r IDE_LIBRARY_BASENAME=%{_lib} \
-	QTC_ENABLE_CLANG_LIBTOOLING=1 \
-%if %{with sys_botan}
-	USE_SYSTEM_BOTAN=1
-%endif
-
-%make_build STRIP=/bin/true CC=%{__cc} CXX=%{__cxx}
-%if %{with docs}
-make qch_docs
-%endif
+%ninja_build -C build
 
 %install
-# Install the Qt 5.x version
-make install STRIP=/bin/true INSTALL_ROOT=%{buildroot}%{_prefix} \
-%if %{with docs}
- install_docs
-%endif
-
-# Prevent "same build ID in nonidentical files" in all the binaries
-cd %{buildroot}%{_bindir}
-for i in *; do
-	if [ "$i" != "qtcreator" ]; then
-		strip --strip-unneeded "$i"
-	fi
-done
-cd -
+%ninja_install -C build
 
 mkdir -p %{buildroot}%{_datadir}/mime/packages
 install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/packages

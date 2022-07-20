@@ -1,0 +1,13 @@
+diff -up qt-creator-opensource-src-8.0.0/bin/qtcreator.sh.omv~ qt-creator-opensource-src-8.0.0/bin/qtcreator.sh
+diff -up qt-creator-opensource-src-8.0.0/src/plugins/clangformat/CMakeLists.txt.omv~ qt-creator-opensource-src-8.0.0/src/plugins/clangformat/CMakeLists.txt
+--- qt-creator-opensource-src-8.0.0/src/plugins/clangformat/CMakeLists.txt.omv~	2022-07-20 17:06:11.112466219 +0200
++++ qt-creator-opensource-src-8.0.0/src/plugins/clangformat/CMakeLists.txt	2022-07-20 17:11:11.169405310 +0200
+@@ -1,6 +1,6 @@
+ add_qtc_plugin(ClangFormat
+   CONDITION TARGET ${CLANG_FORMAT_LIB} AND LLVM_PACKAGE_VERSION VERSION_GREATER_EQUAL 10.0.0 AND (QTC_CLANG_BUILDMODE_MATCH OR CLANGTOOLING_LINK_CLANG_DYLIB)
+-  DEPENDS Utils Qt5::Widgets ${CLANG_FORMAT_LIB}
++  DEPENDS Utils Qt5::Widgets ${CLANG_FORMAT_LIB} -lclang -lLLVM-14
+   PLUGIN_DEPENDS Core TextEditor CppEditor ProjectExplorer
+   SOURCES
+     clangformatbaseindenter.cpp clangformatbaseindenter.h
+diff -up qt-creator-opensource-src-8.0.0/src/plugins/CMakeLists.txt.omv~ qt-creator-opensource-src-8.0.0/src/plugins/CMakeLists.txt
