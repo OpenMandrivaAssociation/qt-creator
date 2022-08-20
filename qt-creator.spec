@@ -59,10 +59,10 @@ BuildRequires:	qt5-qtquick-private-devel
 BuildRequires:	qt5-qtquickcontrols
 BuildRequires:	qdoc5
 BuildRequires:	qbs-devel < 4.5.0
+BuildRequires:	qt5-assistant
 Obsoletes:	qbs > 4.2.2
 Suggests:	qbs < 4.5.0
 Suggests:	qt5-designer
-Suggests:	qt5-assistant
 Suggests:	qt5-devel
 Suggests:	qt5-qml-tools
 Suggests:	qt-creator-doc
