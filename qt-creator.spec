@@ -47,6 +47,7 @@ BuildRequires:	cmake(KF5SyntaxHighlighting)
 BuildRequires:	cmake(Clang)
 BuildRequires:	cmake(LLVM)
 BuildRequires:	cmake(Polly)
+BuildRequires:  cmake(MLIR)
 BuildRequires:	%{_lib}qt5designercomponents-devel
 BuildRequires:  qt5-qtqmlmodels-private-devel
 %if %{with sys_botan}
@@ -59,7 +60,10 @@ BuildRequires:	qt5-qtquick-private-devel
 BuildRequires:	qt5-qtquickcontrols
 BuildRequires:	qdoc5
 BuildRequires:	qbs-devel < 4.5.0
-BuildRequires:	qt5-assistant
+BuildRequires:  qt5-assistant
+BuildRequires:  llvm-static-devel
+BuildRequires:  spirv-llvm-translator
+BuildRequires:  llvm-bolt
 Obsoletes:	qbs > 4.2.2
 Suggests:	qbs < 4.5.0
 Suggests:	qt5-designer
