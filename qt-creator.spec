@@ -9,7 +9,7 @@
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
 Version:	8.0.1
-Release:	%{?beta:0.%{beta}.}1
+Release:	%{?beta:0.%{beta}.}2
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
@@ -43,13 +43,16 @@ BuildRequires:	pkgconfig(Qt5WebKitWidgets)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5X11Extras)
 BuildRequires:	pkgconfig(Qt5Qml)
+BuildRequires:	pkgconfig(Qt5WebEngineWidgets)
+BuildRequires:	pkgconfig(Qt5QuickWidgets)
+BuildRequires:	pkgconfig(Qt5Svg)
 BuildRequires:	cmake(KF5SyntaxHighlighting)
 BuildRequires:	cmake(Clang)
 BuildRequires:	cmake(LLVM)
 BuildRequires:	cmake(Polly)
-BuildRequires:  cmake(MLIR)
+BuildRequires:	cmake(MLIR)
 BuildRequires:	%{_lib}qt5designercomponents-devel
-BuildRequires:  qt5-qtqmlmodels-private-devel
+BuildRequires:	qt5-qtqmlmodels-private-devel
 %if %{with sys_botan}
 BuildRequires:	pkgconfig(botan-2)
 %endif
@@ -60,10 +63,12 @@ BuildRequires:	qt5-qtquick-private-devel
 BuildRequires:	qt5-qtquickcontrols
 BuildRequires:	qdoc5
 BuildRequires:	qbs-devel < 4.5.0
-BuildRequires:  qt5-assistant
-BuildRequires:  llvm-static-devel
-BuildRequires:  spirv-llvm-translator
-BuildRequires:  llvm-bolt
+BuildRequires:	qt5-assistant
+BuildRequires:	llvm-static-devel
+BuildRequires:	spirv-llvm-translator
+BuildRequires:	llvm-bolt
+BuildRequires:	pkgconfig(libsystemd)
+BuildRequires:	pkgconfig(libxml-2.0)
 Obsoletes:	qbs > 4.2.2
 Suggests:	qbs < 4.5.0
 Suggests:	qt5-designer
@@ -80,6 +85,7 @@ development with the Qt application framework even faster and easier.
 
 %files
 %doc README.md
+%{_sysconfdir}/ld.so.conf.d/qt-creator.conf
 %{_libexecdir}/qtcreator/buildoutputparser
 %{_bindir}/qtcreator
 %{_bindir}/qtcreator.sh
@@ -142,6 +148,7 @@ sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
 	-DBUILD_CPLUSPLUS_TOOLS:BOOL=ON \
 	-DCLANGTOOLING_LINK_CLANG_DYLIB:BOOL=ON \
 	-DLITEHTML_UTF8:BOOL=ON \
+	-Djournald=ON \
 	-G Ninja
 
 %build
@@ -149,6 +156,10 @@ sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
 
 %install
 %ninja_install -C build
+
+# (tpg) discover shared libs https://github.com/OpenMandrivaAssociation/distribution/issues/2832
+mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d
+printf '%s\n' "%{_libdir}/qtcreator" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/qt-creator.conf
 
 mkdir -p %{buildroot}%{_datadir}/mime/packages
 install -m 0644 %{SOURCE2} %{buildroot}/%{_datadir}/mime/packages
