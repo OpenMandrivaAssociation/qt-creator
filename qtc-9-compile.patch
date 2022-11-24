@@ -1,0 +1,348 @@
+diff -up qt-creator-opensource-src-9.0.0/src/tools/cplusplus-ast2png/cplusplus-ast2png.cpp.omv~ qt-creator-opensource-src-9.0.0/src/tools/cplusplus-ast2png/cplusplus-ast2png.cpp
+--- qt-creator-opensource-src-9.0.0/src/tools/cplusplus-ast2png/cplusplus-ast2png.cpp.omv~	2022-11-24 15:19:43.355203629 +0100
++++ qt-creator-opensource-src-9.0.0/src/tools/cplusplus-ast2png/cplusplus-ast2png.cpp	2022-11-24 15:31:32.459526438 +0100
+@@ -280,9 +280,9 @@ protected:
+     virtual bool visit(Declaration *symbol) {
+         out << _id[symbol].constData() << " [label=\"";
+         out << "Declaration\\n";
+-        out << qPrintable(o(symbol->name()));
++        out << qPrintable(o.prettyName(symbol->name()));
+         out << ": ";
+-        out << qPrintable(o(symbol->type()));
++        out << qPrintable(o.prettyType(symbol->type()));
+         if (symbol->isDeprecated())
+             out << "\\n(deprecated)";
+         if (Function *funTy = symbol->type()->asFunctionType()) {
+@@ -308,7 +308,7 @@ protected:
+ 
+     virtual bool visit(BaseClass *symbol) {
+         out << _id[symbol].constData() << " [label=\"BaseClass\\n";
+-        out << qPrintable(o(symbol->name()));
++        out << qPrintable(o.prettyName(symbol->name()));
+         if (symbol->isDeprecated())
+             out << "\\n(deprecated)";
+         out << "\"];" << std::endl;
+diff -up qt-creator-opensource-src-9.0.0/src/tools/cplusplus-mkvisitor/cplusplus-mkvisitor.cpp.omv~ qt-creator-opensource-src-9.0.0/src/tools/cplusplus-mkvisitor/cplusplus-mkvisitor.cpp
+--- qt-creator-opensource-src-9.0.0/src/tools/cplusplus-mkvisitor/cplusplus-mkvisitor.cpp.omv~	2022-11-24 15:45:41.313620360 +0100
++++ qt-creator-opensource-src-9.0.0/src/tools/cplusplus-mkvisitor/cplusplus-mkvisitor.cpp	2022-11-24 15:46:41.124071264 +0100
+@@ -44,7 +44,7 @@ class MkVisitor: protected SymbolVisitor
+     bool isMiscNode(ClassOrNamespace *b) const
+     {
+         for (const ClassOrNamespace *u : b->usings()) {
+-            if (oo(u->symbols().first()->name()) == QLatin1String("AST"))
++            if (oo.prettyName(u->symbols().first()->name()) == QLatin1String("AST"))
+                 return true;
+         }
+ 
+@@ -58,7 +58,7 @@ class MkVisitor: protected SymbolVisitor
+         retType->clear();
+ 
+         if (interfaces.contains(b) || isMiscNode(b)) {
+-            QString className = oo(b->symbols().first()->name());
++            QString className = oo.prettyName(b->symbols().first()->name());
+ 
+             if (className.endsWith(QLatin1String("AST"))) {
+                 className.chop(3);
+@@ -114,7 +114,7 @@ public:
+ 
+             Q_ASSERT(klass != 0);
+ 
+-            QString className = oo(klass->name());
++            QString className = oo.prettyName(klass->name());
+             if (className == QLatin1String("AST"))
+                 continue;
+ 
+@@ -162,7 +162,7 @@ public:
+                 Q_ASSERT(klass != 0);
+ 
+                 QString retTy ;
+-                QString className = oo(klass->name());
++                QString className = oo.prettyName(klass->name());
+                 std::cout << "    void " << qPrintable(getAcceptFunctionName(b, &retTy)) << "(" << qPrintable(className) << " *ast);" << std::endl;
+             }
+         }
+@@ -170,7 +170,7 @@ public:
+         std::cout << std::endl;
+ 
+         for (ClassOrNamespace *iface : std::as_const(interfaces)) {
+-            std::cout << "    // " << qPrintable(oo(iface->symbols().first()->name())) << std::endl;
++            std::cout << "    // " << qPrintable(oo.prettyName(iface->symbols().first()->name())) << std::endl;
+             const QList<ClassOrNamespace *> values = implements.value(iface);
+             for (ClassOrNamespace *b : values) {
+                 Class *klass = 0;
+@@ -180,7 +180,7 @@ public:
+ 
+                 Q_ASSERT(klass != 0);
+ 
+-                QString className = oo(klass->name());
++                QString className = oo.prettyName(klass->name());
+                 std::cout << "    virtual bool visit(" << qPrintable(className) << " *ast);" << std::endl;
+             }
+             std::cout << std::endl;
+@@ -197,7 +197,7 @@ public:
+ 
+             Q_ASSERT(klass != 0);
+ 
+-            QString className = oo(klass->name());
++            QString className = oo.prettyName(klass->name());
+             if (className == QLatin1String("AST"))
+                 continue;
+ 
+@@ -230,7 +230,7 @@ public:
+ 
+             Q_ASSERT(klass != 0);
+ 
+-            QString className = oo(klass->name());
++            QString className = oo.prettyName(klass->name());
+             if (className == QLatin1String("AST"))
+                 continue;
+ 
+@@ -256,7 +256,7 @@ public:
+         }
+ 
+         for (ClassOrNamespace *iface : std::as_const(interfaces)) {
+-            std::cout << "// " << qPrintable(oo(iface->symbols().first()->name())) << std::endl;
++            std::cout << "// " << qPrintable(oo.prettyName(iface->symbols().first()->name())) << std::endl;
+             const QList<ClassOrNamespace *> values = implements.value(iface);
+             for (ClassOrNamespace *b : values) {
+                 Class *klass = 0;
+@@ -266,7 +266,7 @@ public:
+ 
+                 Q_ASSERT(klass != 0);
+ 
+-                QString className = oo(klass->name());
++                QString className = oo.prettyName(klass->name());
+                 std::cout << "bool Semantic::visit(" << qPrintable(className) << " *ast)" << std::endl
+                           << "{" << std::endl;
+ 
+@@ -295,10 +295,10 @@ public:
+                         continue;
+                     if (decl->type()->isFunctionType())
+                         continue;
+-                    const QString declName = oo(decl->name());
++                    const QString declName = oo.prettyName(decl->name());
+                     if (PointerType *ptrTy = decl->type()->asPointerType()) {
+                         if (NamedType *namedTy = ptrTy->elementType()->asNamedType()) {
+-                            const QString eltTyName = oo(namedTy->name());
++                            const QString eltTyName = oo.prettyName(namedTy->name());
+                             if (eltTyName.endsWith(QLatin1String("ListAST"))) {
+                                 QString name = eltTyName;
+                                 name.chop(7);
+@@ -327,7 +327,7 @@ public:
+                             }
+ 
+                             if (ClassOrNamespace *ty = context.lookupType(namedTy->name(), klass)) {
+-                                QString className = oo(ty->symbols().first()->name());
++                                QString className = oo.prettyName(ty->symbols().first()->name());
+                                 QString baseClassName = className;
+                                 if (baseClassName.endsWith(QLatin1String("AST"))) {
+                                     baseClassName.chop(3);
+@@ -370,7 +370,7 @@ protected:
+     }
+ 
+     virtual bool visit(Class *klass) {
+-        const QString className = oo(klass->name());
++        const QString className = oo.prettyName(klass->name());
+         if (! className.endsWith(QLatin1String("AST")))
+             return false;
+ 
+@@ -383,7 +383,7 @@ protected:
+                 if (! meth->isPureVirtual()) {
+                     for (ClassOrNamespace *u : b->usings()) {
+                         if (interfaces.contains(u)) {
+-                            // qDebug() << oo(klass->name()) << "implements" << oo(u->symbols().first()->name());
++                            // qDebug() << oo.prettyName(klass->name()) << "implements" << oo.prettyName(u->symbols().first()->name());
+                         } else {
+                             Q_ASSERT(!"no way");
+                         }
+@@ -394,7 +394,7 @@ protected:
+             }
+         }
+ 
+-        //qDebug() << oo(klass->name()) << "is a base ast node";
++        //qDebug() << oo.prettyName(klass->name()) << "is a base ast node";
+         interfaces.append(b);
+ 
+         return false;
+diff -up qt-creator-opensource-src-9.0.0/src/tools/cplusplus-update-frontend/cplusplus-update-frontend.cpp.omv~ qt-creator-opensource-src-9.0.0/src/tools/cplusplus-update-frontend/cplusplus-update-frontend.cpp
+--- qt-creator-opensource-src-9.0.0/src/tools/cplusplus-update-frontend/cplusplus-update-frontend.cpp.omv~	2022-11-24 15:25:15.420573955 +0100
++++ qt-creator-opensource-src-9.0.0/src/tools/cplusplus-update-frontend/cplusplus-update-frontend.cpp	2022-11-24 15:30:23.442442732 +0100
+@@ -171,7 +171,7 @@ protected:
+         Class *klass = ast->symbol;
+         Q_ASSERT(klass != nullptr);
+ 
+-        const QString className = oo(klass->name());
++        const QString className = oo.prettyName(klass->name());
+ 
+         if (className.endsWith(QLatin1String("AST"))) {
+             if (className == QLatin1String("AST"))
+@@ -271,7 +271,7 @@ protected:
+                 continue;
+ 
+             const QByteArray memberName = QByteArray::fromRawData(id->chars(), id->size());
+-            if (member->type()->isIntegerType() && memberName.endsWith("_token")) {
++            if (member->type()->asIntegerType() && memberName.endsWith("_token")) {
+                 // nothing to do. The member is a token.
+ 
+             } else if (PointerType *ptrTy = member->type()->asPointerType()) {
+@@ -394,7 +394,7 @@ protected:
+     void visitMembers(Class *klass)
+     {
+         Overview oo;
+-        const QString className = oo(klass->name());
++        const QString className = oo.prettyName(klass->name());
+ 
+         *out << "    if (" << className << " *_other = pattern->as"
+              << className.left(className.length() - 3) << "())" << Qt::endl;
+@@ -518,7 +518,7 @@ protected:
+                 continue;
+ 
+             const QByteArray memberName = QByteArray::fromRawData(id->chars(), id->size());
+-            if (member->type()->isIntegerType() && memberName.endsWith("_token")) {
++            if (member->type()->asIntegerType() && memberName.endsWith("_token")) {
+                 *out << "    pattern->" << memberName << " = node->" << memberName << ";" << Qt::endl
+                      << Qt::endl;
+ 
+@@ -657,7 +657,7 @@ protected:
+                 continue;
+ 
+             const QByteArray memberName = QByteArray::fromRawData(id->chars(), id->size());
+-            if (member->type()->isIntegerType() && memberName.endsWith("_token")) {
++            if (member->type()->asIntegerType() && memberName.endsWith("_token")) {
+                 *out << "    ast->" << memberName << " = " << memberName << ";" << Qt::endl;
+             } else if (PointerType *ptrTy = member->type()->asPointerType()) {
+                 if (NamedType *namedTy = ptrTy->elementType()->asNamedType()) {
+@@ -789,7 +789,7 @@ protected:
+                 continue;
+ 
+             const QByteArray memberName = QByteArray::fromRawData(id->chars(), id->size());
+-            if (member->type()->isIntegerType() && memberName.endsWith("_token")) {
++            if (member->type()->asIntegerType() && memberName.endsWith("_token")) {
+                 out << "    if (ast->" << memberName << ")" << Qt::endl;
+                 out << "        terminal(ast->" << memberName << ", ast);" << Qt::endl;
+             } else if (PointerType *ptrTy = member->type()->asPointerType()) {
+@@ -881,7 +881,7 @@ protected:
+     virtual bool visit(FunctionDefinitionAST *ast)
+     {
+         Function *fun = ast->symbol;
+-        const QString functionName = oo(fun->name());
++        const QString functionName = oo.prettyName(fun->name());
+ 
+         if (functionName.length() > 3 && functionName.startsWith(QLatin1String("as"))
+             && functionName.at(2).isUpper()) {
+@@ -909,18 +909,18 @@ static QStringList collectFieldNames(Cla
+     for (int i = 0; i < clazz->memberCount(); ++i) {
+         Symbol *s = clazz->memberAt(i);
+         if (Declaration *decl = s->asDeclaration()) {
+-            const QString declName = oo(decl->name());
++            const QString declName = oo.prettyName(decl->name());
+             const FullySpecifiedType ty = decl->type();
+             if (const PointerType *ptrTy = ty->asPointerType()) {
+                 if (onlyTokensAndASTNodes) {
+                     if (const NamedType *namedTy = ptrTy->elementType()->asNamedType()) {
+-                        if (oo(namedTy->name()).endsWith(QLatin1String("AST")))
++                        if (oo.prettyName(namedTy->name()).endsWith(QLatin1String("AST")))
+                             fields.append(declName);
+                     }
+                 } else {
+                     fields.append(declName);
+                 }
+-            } else if (ty->isIntegerType()) {
++            } else if (ty->asIntegerType()) {
+                 fields.append(declName);
+             }
+         }
+@@ -1021,7 +1021,7 @@ void generateAST_cpp(const Snapshot &sna
+ 
+     // find all classes with method declarations for firstToken/lastToken
+     for (ClassSpecifierAST *classAST : std::as_const(astNodes.deriveds)) {
+-        const QString className = oo(classAST->symbol->name());
++        const QString className = oo.prettyName(classAST->symbol->name());
+         if (className.isEmpty())
+             continue;
+ 
+@@ -1032,7 +1032,7 @@ void generateAST_cpp(const Snapshot &sna
+                         std::cerr << "Found simple declaration with multiple symbols in " << className.toLatin1().data() << std::endl;
+ 
+                     Symbol *s = decl->symbols->value;
+-                    const QString funName = oo(s->name());
++                    const QString funName = oo.prettyName(s->name());
+                     if (funName == QLatin1String("firstToken")) {
+                         // found it:
+                         classesNeedingFirstToken.insert(className, classAST);
+@@ -1052,8 +1052,8 @@ void generateAST_cpp(const Snapshot &sna
+         if (FunctionDefinitionAST *funDef = iter->value->asFunctionDefinition()) {
+             if (const Name *name = funDef->symbol->name()) {
+                 if (const QualifiedNameId *qName = name->asQualifiedNameId()) {
+-                    const QString className = oo(qName->base());
+-                    const QString methodName = oo(qName->name());
++                    const QString className = oo.prettyName(qName->base());
++                    const QString methodName = oo.prettyName(qName->name());
+ 
+                     QTextCursor cursor(&cpp_document);
+ 
+@@ -1121,7 +1121,7 @@ void generateAST_cpp(const Snapshot &sna
+ 
+         Overview oo;
+ 
+-        const QString className = oo(info.classAST->symbol->name());
++        const QString className = oo.prettyName(info.classAST->symbol->name());
+ 
+         QString method;
+         QTextStream os(&method);
+@@ -1320,7 +1320,7 @@ QStringList generateAST_H(const Snapshot
+     QStringList castMethods;
+     for (ClassSpecifierAST *classAST : std::as_const(astNodes.deriveds)) {
+         cursors[classAST] = removeCastMethods(classAST);
+-        const QString className = oo(classAST->symbol->name());
++        const QString className = oo.prettyName(classAST->symbol->name());
+         const QString methodName = QLatin1String("as") + className.mid(0, className.length() - 3);
+         replacementCastMethods[classAST]
+                 = QString::fromLatin1("    virtual %1 *%2() { return this; }\n")
+@@ -1401,7 +1401,7 @@ protected:
+ 
+         if (ElaboratedTypeSpecifierAST *e = ast->decl_specifier_list->value->asElaboratedTypeSpecifier()) {
+             if (tokenKind(e->classkey_token) == T_CLASS && !ast->declarator_list) {
+-                QString className = oo(e->name->name);
++                QString className = oo.prettyName(e->name->name);
+ 
+                 if (className.length() > 3 && className.endsWith(QLatin1String("AST"))) {
+                     QTextCursor tc = createCursor(translationUnit(), ast, document);
+@@ -1499,7 +1499,7 @@ void generateASTPatternBuilder_h(const Q
+         if (! match0Method)
+             continue;
+ 
+-        const QString className = oo(klass->name());
++        const QString className = oo.prettyName(klass->name());
+ 
+         if (! className.endsWith(QLatin1String("AST")))
+             continue;
+@@ -1521,14 +1521,14 @@ void generateASTPatternBuilder_h(const Q
+             if (! ptrTy)
+                 continue;
+ 
+-            const QString tyName = oo(ptrTy->elementType());
++            const QString tyName = oo.prettyType(ptrTy->elementType());
+             if (tyName.endsWith(QLatin1String("ListAST")))
+                 classesSet.insert(tyName);
+             if (tyName.endsWith(QLatin1String("AST"))) {
+                 if (! first)
+                     out << ", ";
+ 
+-                const QString memberName = oo(member->name());
++                const QString memberName = oo.prettyName(member->name());
+ 
+                 out << tyName << " *" << memberName << " = nullptr";
+                 args.append(qMakePair(tyName, memberName));
+diff -up qt-creator-opensource-src-9.0.0/src/tools/cplusplus-mkvisitor/cplusplus-mkvisitor.cpp.omv~ qt-creator-opensource-src-9.0.0/src/tools/cplusplus-mkvisitor/cplusplus-mkvisitor.cpp
+--- qt-creator-opensource-src-9.0.0/src/tools/cplusplus-mkvisitor/cplusplus-mkvisitor.cpp.omv~	2022-11-24 18:01:24.096343913 +0100
++++ qt-creator-opensource-src-9.0.0/src/tools/cplusplus-mkvisitor/cplusplus-mkvisitor.cpp	2022-11-24 18:01:28.036369357 +0100
+@@ -293,7 +293,7 @@ public:
+                     Declaration *decl = klass->memberAt(i)->asDeclaration();
+                     if (! decl)
+                         continue;
+-                    if (decl->type()->isFunctionType())
++                    if (decl->type()->asFunctionType())
+                         continue;
+                     const QString declName = oo.prettyName(decl->name());
+                     if (PointerType *ptrTy = decl->type()->asPointerType()) {

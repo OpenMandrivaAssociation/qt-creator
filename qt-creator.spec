@@ -8,8 +8,8 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	8.0.2
-Release:	%{?beta:0.%{beta}.}2
+Version:	9.0.0
+Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		http://qt.digia.com/products/developer-tools
@@ -21,6 +21,7 @@ Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{ver
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
 Patch0:		qt-creator-8.0.0-clang-buildfixes.patch
+Patch1:		qtc-9-compile.patch
 # For the Qt5 build...
 BuildRequires:	cmake ninja
 BuildRequires:	qmake5
