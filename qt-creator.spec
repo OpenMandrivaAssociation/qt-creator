@@ -22,8 +22,6 @@ Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
 Patch0:		qt-creator-10-compile.patch
 BuildRequires:	cmake ninja
-BuildRequires:	qmake5
-BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(libelf)
 BuildRequires:	cmake(Clang)
 BuildRequires:	cmake(LLVM)
