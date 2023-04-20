@@ -1,0 +1,31 @@
+diff -up qt-creator-opensource-src-10.0.0/src/plugins/clangformat/CMakeLists.txt.omv~ qt-creator-opensource-src-10.0.0/src/plugins/clangformat/CMakeLists.txt
+--- qt-creator-opensource-src-10.0.0/src/plugins/clangformat/CMakeLists.txt.omv~	2023-04-20 21:40:49.959870466 +0200
++++ qt-creator-opensource-src-10.0.0/src/plugins/clangformat/CMakeLists.txt	2023-04-20 21:41:30.391223827 +0200
+@@ -1,6 +1,6 @@
+ add_qtc_plugin(ClangFormat
+   CONDITION TARGET ${CLANG_FORMAT_LIB} AND LLVM_PACKAGE_VERSION VERSION_GREATER_EQUAL 10.0.0 AND (QTC_CLANG_BUILDMODE_MATCH OR CLANGTOOLING_LINK_CLANG_DYLIB)
+-  DEPENDS Utils Qt::Widgets ${CLANG_FORMAT_LIB}
++  DEPENDS Utils Qt::Widgets ${CLANG_FORMAT_LIB} LLVMSupport
+   PLUGIN_DEPENDS Core TextEditor CppEditor ProjectExplorer
+   SOURCES
+     clangformatbaseindenter.cpp clangformatbaseindenter.h
+diff -up qt-creator-opensource-src-10.0.0/src/plugins/cppeditor/cppquickfixes.cpp.omv~ qt-creator-opensource-src-10.0.0/src/plugins/cppeditor/cppquickfixes.cpp
+--- qt-creator-opensource-src-10.0.0/src/plugins/cppeditor/cppquickfixes.cpp.omv~	2023-04-20 21:11:04.183357280 +0200
++++ qt-creator-opensource-src-10.0.0/src/plugins/cppeditor/cppquickfixes.cpp	2023-04-20 21:11:52.849722781 +0200
+@@ -4393,6 +4393,8 @@ public:
+         ConstantQPropertyColumn
+     };
+     using Flag = GenerateGetterSetterOp::GenerateFlag;
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wenum-constexpr-conversion"
+     constexpr static Flag ColumnFlag[] = {
+         static_cast<Flag>(-1),
+         Flag::GenerateGetter,
+@@ -4402,6 +4404,7 @@ public:
+         Flag::GenerateProperty,
+         Flag::GenerateConstantProperty,
+     };
++#pragma GCC diagnostic pop
+ 
+     CandidateTreeItem(MemberInfo *memberInfo)
+         : m_memberInfo(memberInfo)

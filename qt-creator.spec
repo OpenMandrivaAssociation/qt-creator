@@ -8,7 +8,7 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	9.0.0
+Version:	10.0.0
 Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
@@ -20,51 +20,55 @@ Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{ver
 %endif
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
-Patch0:		qt-creator-8.0.0-clang-buildfixes.patch
-Patch1:		qtc-9-compile.patch
-# For the Qt5 build...
+Patch0:		qt-creator-10-compile.patch
 BuildRequires:	cmake ninja
 BuildRequires:	qmake5
 BuildRequires:	qt5-devel
 BuildRequires:	pkgconfig(libelf)
-BuildRequires:	pkgconfig(Qt5Concurrent)
-BuildRequires:	pkgconfig(Qt5Core)
-BuildRequires:	cmake(Qt5Designer)
-BuildRequires:	pkgconfig(Qt5Gui)
-BuildRequires:	pkgconfig(Qt5Help)
-BuildRequires:	pkgconfig(Qt5Network)
-BuildRequires:	pkgconfig(Qt5PrintSupport)
-BuildRequires:	pkgconfig(Qt5Quick)
-BuildRequires:	pkgconfig(Qt5QuickWidgets)
-BuildRequires:	pkgconfig(Qt5SerialPort)
-BuildRequires:	pkgconfig(Qt5Sql)
-BuildRequires:	pkgconfig(Qt5Svg)
-BuildRequires:	pkgconfig(Qt5Test)
-BuildRequires:	pkgconfig(Qt5WebKitWidgets)
-BuildRequires:	pkgconfig(Qt5Widgets)
-BuildRequires:	pkgconfig(Qt5X11Extras)
-BuildRequires:	pkgconfig(Qt5Qml)
-BuildRequires:	pkgconfig(Qt5WebEngineWidgets)
-BuildRequires:	pkgconfig(Qt5QuickWidgets)
-BuildRequires:	pkgconfig(Qt5Svg)
-BuildRequires:	cmake(KF5SyntaxHighlighting)
 BuildRequires:	cmake(Clang)
 BuildRequires:	cmake(LLVM)
 BuildRequires:	cmake(Polly)
 BuildRequires:	cmake(MLIR)
-BuildRequires:	%{_lib}qt5designercomponents-devel
-BuildRequires:	qt5-qtqmlmodels-private-devel
+BuildRequires:	python
+BuildRequires:	cmake(Qt6Core)
+BuildRequires:	cmake(Qt6CoreTools)
+BuildRequires:	cmake(Qt6Concurrent)
+BuildRequires:	cmake(Qt6GuiTools)
+BuildRequires:	cmake(Qt6DBusTools)
+BuildRequires:	cmake(Qt6Gui)
+BuildRequires:	cmake(Qt6Network)
+BuildRequires:	cmake(Qt6WidgetsTools)
+BuildRequires:	cmake(Qt6PrintSupport)
+BuildRequires:	cmake(Qt6QmlTools)
+BuildRequires:	cmake(Qt6Qml)
+BuildRequires:	cmake(Qt6Sql)
+BuildRequires:	cmake(Qt6Xml)
+BuildRequires:	cmake(Qt6Core5Compat)
+BuildRequires:	cmake(Qt6LinguistTools)
+BuildRequires:	cmake(Qt6Quick)
+BuildRequires:	cmake(Qt6QuickWidgets)
+BuildRequires:	cmake(Qt6Designer)
+BuildRequires:	cmake(Qt6Help)
+BuildRequires:	cmake(Qt6SerialPort)
+BuildRequires:	cmake(Qt6Svg)
+BuildRequires:	cmake(Qt6Tools)
+BuildRequires:	cmake(Qt6ToolsTools)
+BuildRequires:	cmake(Qt6Test)
+BuildRequires:	cmake(Qt6SvgWidgets)
+BuildRequires:	cmake(Qt6WebEngineCoreTools)
+BuildRequires:	cmake(Qt6WebEngineWidgets)
+BuildRequires:	cmake(Qt6Quick3DTools)
+BuildRequires:	cmake(Qt6ShaderTools)
+BuildRequires:	cmake(Qt6ShaderToolsTools)
+BuildRequires:	cmake(Qt6Quick3D)
+BuildRequires:	cmake(Qt6Quick3DAssetImport)
+BuildRequires:	cmake(Qt6Quick3DParticles)
+BuildRequires:	cmake(Qt6Quick3DAssetUtils)
+BuildRequires:	cmake(Qt6QuickTimeline)
 %if %{with sys_botan}
 BuildRequires:	pkgconfig(botan-2)
 %endif
-BuildRequires:	qt5-qttools
-BuildRequires:	qt5-linguist-tools
-BuildRequires:	qt5-qtquickwidgets-private-devel
-BuildRequires:	qt5-qtquick-private-devel
-BuildRequires:	qt5-qtquickcontrols
-BuildRequires:	qdoc5
 BuildRequires:	qbs-devel < 4.5.0
-BuildRequires:	qt5-assistant
 BuildRequires:	llvm-static-devel
 BuildRequires:	spirv-llvm-translator
 BuildRequires:	llvm-bolt
@@ -72,10 +76,9 @@ BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	pkgconfig(libxml-2.0)
 Obsoletes:	qbs > 4.2.2
 Suggests:	qbs < 4.5.0
-Suggests:	qt5-designer
-Suggests:	qt5-devel
-Suggests:	qt5-qml-tools
-Suggests:	qt-creator-doc
+Suggests:	qt6-designer
+Suggests:	qt6-devel
+Suggests:	%{name}-doc
 Requires:	%{name}-common
 Provides:	%{name}-ui = %{EVRD}
 
@@ -92,7 +95,6 @@ development with the Qt application framework even faster and easier.
 %{_bindir}/qtcreator.sh
 %dir %{_libexecdir}/qtcreator
 %{_libexecdir}/qtcreator/cpaster
-%{_libexecdir}/qtcreator/qml2puppet
 %{_libexecdir}/qtcreator/qtcreator_process_stub
 %{_libexecdir}/qtcreator/qtcreator_processlauncher
 %{_libexecdir}/qtcreator/qtpromaker
@@ -104,6 +106,7 @@ development with the Qt application framework even faster and easier.
 %{_libexecdir}/qtcreator/cplusplus-frontend
 %{_libexecdir}/qtcreator/cplusplus-mkvisitor
 %{_libexecdir}/qtcreator/cplusplus-update-frontend
+%{_libexecdir}/qtcreator/qml2puppet-%{version}
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
