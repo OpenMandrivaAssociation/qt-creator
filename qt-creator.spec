@@ -65,6 +65,9 @@ BuildRequires:	cmake(Qt6Quick3DAssetImport)
 BuildRequires:	cmake(Qt6Quick3DParticles)
 BuildRequires:	cmake(Qt6Quick3DAssetUtils)
 BuildRequires:	cmake(Qt6QuickTimeline)
+BuildRequires:	cmake(Qt6CoreTools)
+BuildRequires:	qmake-qt6
+BuildRequires:	cmake(ECM)
 %if %{with sys_botan}
 BuildRequires:	pkgconfig(botan-2)
 %endif
