@@ -28,6 +28,7 @@ BuildRequires:	cmake(LLVM)
 BuildRequires:	cmake(Polly)
 BuildRequires:	cmake(MLIR)
 BuildRequires:	python
+BuildRequires:	cmake(Qt6)
 BuildRequires:	cmake(Qt6Core)
 BuildRequires:	cmake(Qt6CoreTools)
 BuildRequires:	cmake(Qt6Concurrent)
