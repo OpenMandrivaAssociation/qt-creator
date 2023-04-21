@@ -149,6 +149,8 @@ Qt Creator documentation.
 %if "%{_lib}" != "lib"
 sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
 %endif
+# cmake errors are much more useful if they aren't silenced...
+sed -i -e 's, QUIET,,g' cmake/FindQt5.cmake
 %cmake \
 	-DBUILD_CPLUSPLUS_TOOLS:BOOL=ON \
 	-DCLANGTOOLING_LINK_CLANG_DYLIB:BOOL=ON \
