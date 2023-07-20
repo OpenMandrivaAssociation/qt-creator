@@ -1,0 +1,11 @@
+diff -up qt-creator-opensource-src-11.0.0/src/plugins/clangformat/CMakeLists.txt.omv~ qt-creator-opensource-src-11.0.0/src/plugins/clangformat/CMakeLists.txt
+--- qt-creator-opensource-src-11.0.0/src/plugins/clangformat/CMakeLists.txt.omv~	2023-07-20 14:22:58.124027001 +0200
++++ qt-creator-opensource-src-11.0.0/src/plugins/clangformat/CMakeLists.txt	2023-07-20 14:23:27.939364815 +0200
+@@ -1,6 +1,6 @@
+ add_qtc_plugin(ClangFormat
+   CONDITION TARGET ${CLANG_FORMAT_LIB} AND LLVM_PACKAGE_VERSION VERSION_GREATER_EQUAL 10.0.0 AND (QTC_CLANG_BUILDMODE_MATCH OR CLANGTOOLING_LINK_CLANG_DYLIB)
+-  DEPENDS Utils Qt::Widgets ${CLANG_FORMAT_LIB}
++  DEPENDS Utils Qt::Widgets ${CLANG_FORMAT_LIB} LLVMSupport
+   PLUGIN_DEPENDS Core TextEditor CppEditor ProjectExplorer
+   SOURCES
+     clangformatbaseindenter.cpp clangformatbaseindenter.h

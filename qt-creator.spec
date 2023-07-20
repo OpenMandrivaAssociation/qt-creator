@@ -8,7 +8,7 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	10.0.1
+Version:	11.0.0
 Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
@@ -20,7 +20,7 @@ Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{ver
 %endif
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
-Patch0:		qt-creator-10-compile.patch
+Patch0:		qt-creator-11-llvm-linkage.patch
 BuildRequires:	cmake ninja
 BuildRequires:	pkgconfig(libelf)
 BuildRequires:	cmake(Clang)
@@ -107,10 +107,6 @@ development with the Qt application framework even faster and easier.
 %{_libexecdir}/qtcreator/sdktool
 %{_libexecdir}/qtcreator/perfparser
 %{_libexecdir}/qtcreator/perf2text
-%{_libexecdir}/qtcreator/cplusplus-ast2png
-%{_libexecdir}/qtcreator/cplusplus-frontend
-%{_libexecdir}/qtcreator/cplusplus-mkvisitor
-%{_libexecdir}/qtcreator/cplusplus-update-frontend
 %{_libexecdir}/qtcreator/qml2puppet-%{version}
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
@@ -153,8 +149,6 @@ Qt Creator documentation.
 %if "%{_lib}" != "lib"
 sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
 %endif
-# cmake errors are much more useful if they aren't silenced...
-sed -i -e 's, QUIET,,g' cmake/FindQt5.cmake
 %cmake \
 	-DBUILD_CPLUSPLUS_TOOLS:BOOL=ON \
 	-DCLANGTOOLING_LINK_CLANG_DYLIB:BOOL=ON \
