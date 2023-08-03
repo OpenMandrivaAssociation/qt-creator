@@ -150,6 +150,9 @@ Qt Creator documentation.
 sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
 %endif
 %cmake \
+%ifarch %{aarch64}
+	-DBUILD_WITH_PCH:BOOL=OFF \
+%endif
 	-DBUILD_CPLUSPLUS_TOOLS:BOOL=ON \
 	-DCLANGTOOLING_LINK_CLANG_DYLIB:BOOL=ON \
 	-DLITEHTML_UTF8:BOOL=ON \
