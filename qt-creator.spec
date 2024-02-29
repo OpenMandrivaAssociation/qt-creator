@@ -4,11 +4,11 @@
 
 %bcond_with docs
 
-#define beta beta2
+%define beta beta2
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	12.0.1
+Version:	13.0.0
 Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
@@ -20,7 +20,7 @@ Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{ver
 %endif
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
-Patch0:		qt-creator-11-llvm-linkage.patch
+Patch0:		qt-creator-13-compile.patch
 BuildRequires:	cmake ninja
 BuildRequires:	pkgconfig(libelf)
 BuildRequires:	cmake(Clang)
@@ -107,7 +107,7 @@ development with the Qt application framework even faster and easier.
 %{_libexecdir}/qtcreator/sdktool
 %{_libexecdir}/qtcreator/perfparser
 %{_libexecdir}/qtcreator/perf2text
-%{_libexecdir}/qtcreator/qml2puppet-%{version}
+%{_libexecdir}/qtcreator/qml2puppet-*
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
