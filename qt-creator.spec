@@ -12,7 +12,7 @@ Version:	14.0.2
 Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
-Url:		http://qt.digia.com/products/developer-tools
+Url:		https://qt.digia.com/products/developer-tools
 %if %{?beta:1}0
 Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-opensource-src-%{version}-%{beta}.tar.gz
 %else
