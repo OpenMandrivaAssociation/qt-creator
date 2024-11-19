@@ -4,15 +4,17 @@
 
 %bcond_with docs
 
-#define beta rc1
+%define beta rc1
+
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	14.0.2
+Version:	15.0.0
 Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		https://qt.digia.com/products/developer-tools
+
 %if %{?beta:1}0
 Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-opensource-src-%{version}-%{beta}.tar.gz
 %else
@@ -92,7 +94,6 @@ cross-platform integrated development environment (IDE) designed to make
 development with the Qt application framework even faster and easier.
 
 %patchlist
-qt-creator-14.0.2-clang19.patch
 
 %files
 %doc README.md
