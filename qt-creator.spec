@@ -4,15 +4,17 @@
 
 %bcond_with docs
 
-#define beta beta2
+%define beta rc1
+
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	11.0.3
+Version:	15.0.0
 Release:	%{?beta:0.%{beta}.}2
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
-Url:		http://qt.digia.com/products/developer-tools
+Url:		https://qt.digia.com/products/developer-tools
+
 %if %{?beta:1}0
 Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-opensource-src-%{version}-%{beta}.tar.gz
 %else
@@ -20,7 +22,6 @@ Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{ver
 %endif
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
-Patch0:		qt-creator-11-llvm-linkage.patch
 BuildRequires:	cmake ninja
 BuildRequires:	pkgconfig(libelf)
 BuildRequires:	cmake(Clang)
@@ -92,6 +93,8 @@ Qt Creator (previously known as Project Greenhouse) is a new, lightweight,
 cross-platform integrated development environment (IDE) designed to make
 development with the Qt application framework even faster and easier.
 
+%patchlist
+
 %files
 %doc README.md
 %{_sysconfdir}/ld.so.conf.d/qt-creator.conf
@@ -107,7 +110,7 @@ development with the Qt application framework even faster and easier.
 %{_libexecdir}/qtcreator/sdktool
 %{_libexecdir}/qtcreator/perfparser
 %{_libexecdir}/qtcreator/perf2text
-%{_libexecdir}/qtcreator/qml2puppet-%{version}
+%{_libexecdir}/qtcreator/qml2puppet-*
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
@@ -149,6 +152,8 @@ Qt Creator documentation.
 %if "%{_lib}" != "lib"
 sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
 %endif
+export CC=gcc
+export CXX=g++
 %cmake \
 %ifarch %{aarch64}
 	-DBUILD_WITH_PCH:BOOL=OFF \
