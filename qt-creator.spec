@@ -80,6 +80,7 @@ BuildRequires:	spirv-llvm-translator
 BuildRequires:	llvm-bolt
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(libsecret-1)
 Obsoletes:	qbs > 4.2.2
 Suggests:	qbs < 4.5.0
 Suggests:	qt6-designer
