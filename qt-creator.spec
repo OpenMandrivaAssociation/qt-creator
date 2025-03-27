@@ -85,7 +85,8 @@ BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libsecret-1)
 # For cmdbridge
-BuildRequires:	go
+# Currently broken because of vendoring
+#BuildRequires:	go
 Obsoletes:	qbs > 4.2.2
 Suggests:	qbs < 4.5.0
 Suggests:	qt6-designer
@@ -115,12 +116,15 @@ development with the Qt application framework even faster and easier.
 %{_libexecdir}/qtcreator/sdktool
 %{_libexecdir}/qtcreator/perfparser
 %{_libexecdir}/qtcreator/perf2text
+%if 0
+# Broken because of go vendoring
 %{_libexecdir}/qtcreator/cmdbridge-darwin-amd64
 %{_libexecdir}/qtcreator/cmdbridge-darwin-arm64
 %{_libexecdir}/qtcreator/cmdbridge-linux-amd64
 %{_libexecdir}/qtcreator/cmdbridge-linux-arm64
 %{_libexecdir}/qtcreator/cmdbridge-windows-amd64.exe
 %{_libexecdir}/qtcreator/cmdbridge-windows-arm64.exe
+%endif
 %{_libexecdir}/qtcreator/qmlpuppet-%{version}
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
