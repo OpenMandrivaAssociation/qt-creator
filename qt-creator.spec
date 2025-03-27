@@ -30,11 +30,13 @@ BuildRequires:	cmake(Polly)
 BuildRequires:	cmake(MLIR)
 BuildRequires:	python
 BuildRequires:	cmake(Qt6)
+BuildRequires:	cmake(Qt6Charts)
 BuildRequires:	cmake(Qt6Core)
 BuildRequires:	cmake(Qt6CoreTools)
 BuildRequires:	cmake(Qt6Concurrent)
 BuildRequires:	cmake(Qt6GuiTools)
 BuildRequires:	cmake(Qt6DBusTools)
+BuildRequires:	cmake(Qt6DesignerComponentsPrivate)
 BuildRequires:	cmake(Qt6Gui)
 BuildRequires:	cmake(Qt6Network)
 BuildRequires:	cmake(Qt6WidgetsTools)
@@ -58,6 +60,7 @@ BuildRequires:	cmake(Qt6SvgWidgets)
 BuildRequires:	cmake(Qt6WebEngineCore)
 BuildRequires:	cmake(Qt6WebEngineCoreTools)
 BuildRequires:	cmake(Qt6WebEngineWidgets)
+BuildRequires:	cmake(Qt6WebSockets)
 BuildRequires:	cmake(Qt6Quick3DTools)
 BuildRequires:	cmake(Qt6ShaderTools)
 BuildRequires:	cmake(Qt6ShaderToolsTools)
@@ -81,6 +84,8 @@ BuildRequires:	llvm-bolt
 BuildRequires:	pkgconfig(libsystemd)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libsecret-1)
+# For cmdbridge
+BuildRequires:	go
 Obsoletes:	qbs > 4.2.2
 Suggests:	qbs < 4.5.0
 Suggests:	qt6-designer
