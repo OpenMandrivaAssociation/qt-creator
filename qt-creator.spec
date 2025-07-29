@@ -4,13 +4,15 @@
 
 %bcond_with docs
 
-#define beta rc1
+%define beta rc1
+%define qmlpuppet_version 16.0.84
+
 
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	16.0.1
-Release:	%{?beta:0.%{beta}.}2
+Version:	17.0.0
+Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		https://qt.digia.com/products/developer-tools
@@ -125,7 +127,12 @@ development with the Qt application framework even faster and easier.
 %{_libexecdir}/qtcreator/cmdbridge-windows-amd64.exe
 %{_libexecdir}/qtcreator/cmdbridge-windows-arm64.exe
 %endif
+
+%if %{?qmlpuppet_version:1}0
+%{_libexecdir}/qtcreator/qmlpuppet-%{qmlpuppet_version}
+%else
 %{_libexecdir}/qtcreator/qmlpuppet-%{version}
+%endif
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
