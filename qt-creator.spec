@@ -4,14 +4,11 @@
 
 %bcond_with docs
 
-%define beta rc1
-%define qmlpuppet_version 16.0.84
-
-
+#define beta rc1
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	17.0.0
+Version:	18.0.0
 Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
@@ -20,7 +17,7 @@ Url:		https://qt.digia.com/products/developer-tools
 %if %{?beta:1}0
 Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}-%{beta}/qt-creator-opensource-src-%{version}-%{beta}.tar.gz
 %else
-Source0:	http://download.qt-project.org/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.gz
+Source0:	https://download.qt.io/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.xz
 %endif
 Source1:	%{name}.rpmlintrc
 Source2:	Nokia-QtCreator.xml
@@ -118,7 +115,7 @@ development with the Qt application framework even faster and easier.
 %{_libexecdir}/qtcreator/sdktool
 %{_libexecdir}/qtcreator/perfparser
 %{_libexecdir}/qtcreator/perf2text
-%if 0
+%if 1
 # Broken because of go vendoring
 %{_libexecdir}/qtcreator/cmdbridge-darwin-amd64
 %{_libexecdir}/qtcreator/cmdbridge-darwin-arm64
@@ -128,11 +125,7 @@ development with the Qt application framework even faster and easier.
 %{_libexecdir}/qtcreator/cmdbridge-windows-arm64.exe
 %endif
 
-%if %{?qmlpuppet_version:1}0
-%{_libexecdir}/qtcreator/qmlpuppet-%{qmlpuppet_version}
-%else
 %{_libexecdir}/qtcreator/qmlpuppet-%{version}
-%endif
 %{_libdir}/qtcreator
 %{_datadir}/qtcreator
 %{_datadir}/applications/qtcreator.desktop
