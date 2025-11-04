@@ -19,8 +19,12 @@ Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{
 %else
 Source0:	https://download.qt.io/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.xz
 %endif
-Source1:	%{name}.rpmlintrc
+# cd src/libs/gocmdbridge/server
+# go mod vendor
+# tar cJf gocmdbridge-server-vendor.tar.xz vendor
+Source1:	gocmdbridge-server-vendor.tar.xz
 Source2:	Nokia-QtCreator.xml
+Source10:	%{name}.rpmlintrc
 BuildRequires:	cmake ninja
 BuildRequires:	pkgconfig(libelf)
 BuildRequires:	cmake(Clang)
@@ -167,8 +171,11 @@ Qt Creator documentation.
 %if "%{_lib}" != "lib"
 sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
 %endif
-export CC=gcc
-export CXX=g++
+cd src/libs/gocmdbridge/server
+tar xf %{S:1}
+cd -
+#export CC=gcc
+#export CXX=g++
 %cmake \
 %ifarch %{aarch64}
 	-DBUILD_WITH_PCH:BOOL=OFF \
