@@ -85,7 +85,7 @@ BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libsecret-1)
 # For cmdbridge
 # Currently broken because of vendoring
-#BuildRequires:	go
+BuildRequires:	go
 Obsoletes:	qbs > 4.2.2
 Suggests:	qbs < 4.5.0
 Suggests:	qt6-designer
