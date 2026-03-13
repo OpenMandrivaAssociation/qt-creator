@@ -124,6 +124,7 @@ development with the Qt application framework even faster and easier.
 %{_libexecdir}/qtcreator/cmdbridge-darwin-amd64
 %{_libexecdir}/qtcreator/cmdbridge-darwin-arm64
 %{_libexecdir}/qtcreator/cmdbridge-linux-amd64
+%{_libexecdir}/qtcreator/cmdbridge-linux-arm
 %{_libexecdir}/qtcreator/cmdbridge-linux-arm64
 %{_libexecdir}/qtcreator/cmdbridge-windows-amd64.exe
 %{_libexecdir}/qtcreator/cmdbridge-windows-arm64.exe
