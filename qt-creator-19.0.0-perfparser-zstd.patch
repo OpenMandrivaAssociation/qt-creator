@@ -1,9 +1,6 @@
-diff -up qt-creator-opensource-src-19.0.0/src/tools/perfparser/app/CMakeLists.txt.omv~ qt-creator-opensource-src-19.0.0/src/tools/perfparser/app/CMakeLists.txt
---- qt-creator-opensource-src-19.0.0/src/tools/perfparser/app/CMakeLists.txt.omv~	2026-03-10 00:00:00.000000000 +0000
-+++ qt-creator-opensource-src-19.0.0/src/tools/perfparser/app/CMakeLists.txt	2026-07-26 00:00:00.000000000 +0000
-@@ -41,4 +41,10 @@ add_qtc_executable(perfparser
-   DEPENDS
-     perfparser_lib
+--- qt-creator-opensource-src-19.0.0.orig/src/tools/perfparser/app/CMakeLists.txt	2026-03-10 10:51:18.000000000 +0100
++++ qt-creator-opensource-src-19.0.0/src/tools/perfparser/app/CMakeLists.txt	2026-07-26 19:00:08.173977278 +0200
+@@ -42,3 +42,9 @@ add_qtc_executable(perfparser
    SOURCES
      main.cpp
  )
