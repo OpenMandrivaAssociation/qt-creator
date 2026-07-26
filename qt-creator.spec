@@ -1,5 +1,5 @@
 # qt-creator doesn't always work with current Botan versions
-%bcond_without sys_botan
+%bcond_with sys_botan
 %define __brp_python_bytecompile %{nil}
 
 %bcond_with docs
