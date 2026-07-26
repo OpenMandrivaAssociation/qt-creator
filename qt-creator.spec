@@ -9,7 +9,7 @@
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
 Version:	19.0.0
-Release:	%{?beta:0.%{beta}.}5
+Release:	%{?beta:0.%{beta}.}6
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		https://qt.digia.com/products/developer-tools
