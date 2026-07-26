@@ -1,0 +1,15 @@
+diff -up qt-creator-opensource-src-19.0.0/src/tools/perfparser/app/CMakeLists.txt.omv~ qt-creator-opensource-src-19.0.0/src/tools/perfparser/app/CMakeLists.txt
+--- qt-creator-opensource-src-19.0.0/src/tools/perfparser/app/CMakeLists.txt.omv~	2026-03-10 00:00:00.000000000 +0000
++++ qt-creator-opensource-src-19.0.0/src/tools/perfparser/app/CMakeLists.txt	2026-07-26 00:00:00.000000000 +0000
+@@ -41,4 +41,10 @@ add_qtc_executable(perfparser
+   DEPENDS
+     perfparser_lib
+   SOURCES
+     main.cpp
+ )
++
++# LTO can drop PUBLIC deps of the static perfparser_lib from the final link
++# line (observed on aarch64). Re-link zstd explicitly onto the executable.
++if (Zstd_FOUND)
++    target_link_libraries(perfparser PRIVATE ${Zstd_LIBRARY})
++endif()
