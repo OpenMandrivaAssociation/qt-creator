@@ -1,5 +1,5 @@
---- qt-creator-opensource-src-19.0.0.orig/src/tools/perfparser/app/CMakeLists.txt	2026-03-10 10:51:18.000000000 +0100
-+++ qt-creator-opensource-src-19.0.0/src/tools/perfparser/app/CMakeLists.txt	2026-07-26 19:22:01.982683215 +0200
+--- qt-creator-opensource-src-20.0.1/src/tools/perfparser/app/CMakeLists.txt
++++ qt-creator-opensource-src-20.0.1/src/tools/perfparser/app/CMakeLists.txt
 @@ -42,3 +42,7 @@ add_qtc_executable(perfparser
    SOURCES
      main.cpp

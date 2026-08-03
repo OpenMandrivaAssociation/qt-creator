@@ -8,7 +8,7 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	19.0.0
+Version:	20.0.1
 Release:	%{?beta:0.%{beta}.}6
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
@@ -105,9 +105,9 @@ cross-platform integrated development environment (IDE) designed to make
 development with the Qt application framework even faster and easier.
 
 %patchlist
-qt-creator-19.0.0-yaml-cpp-cstdint.patch
-qt-creator-19.0.0-llvm23-clangformat.patch
-qt-creator-19.0.0-perfparser-zstd.patch
+qt-creator-20.0.1-yaml-cpp-cstdint.patch
+qt-creator-20.0.1-llvm23-clangformat.patch
+qt-creator-20.0.1-perfparser-zstd.patch
 
 %files
 %doc README.md
@@ -172,7 +172,7 @@ Qt Creator documentation.
 #------------------------------------------------------------------------------
 
 %prep
-%autosetup -p1 -n %{name}-opensource-src-%{version}%{?beta:-%{beta}}
+%autosetup -p1 -n qt-creator-opensource-src-20.0.1
 %if "%{_lib}" != "lib"
 sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
 %endif

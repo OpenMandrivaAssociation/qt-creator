@@ -1,0 +1,9 @@
+--- qt-creator-opensource-src-20.0.1/src/libs/3rdparty/yaml-cpp/src/emitterutils.cpp
++++ qt-creator-opensource-src-20.0.1/src/libs/3rdparty/yaml-cpp/src/emitterutils.cpp
+@@ -1,5 +1,6 @@
+ #include <algorithm>
+ #include <iomanip>
++#include <cstdint>
+ #include <sstream>
+ 
+ #include "emitterutils.h"
