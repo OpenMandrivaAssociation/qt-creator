@@ -8,8 +8,8 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	20.0.1
-Release:	%{?beta:0.%{beta}.}6
+Version:	20.0.2
+Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		https://qt.digia.com/products/developer-tools
@@ -105,9 +105,8 @@ cross-platform integrated development environment (IDE) designed to make
 development with the Qt application framework even faster and easier.
 
 %patchlist
-qt-creator-20.0.1-yaml-cpp-cstdint.patch
-qt-creator-20.0.1-llvm23-clangformat.patch
-qt-creator-20.0.1-perfparser-zstd.patch
+qt-creator-20.0.2-llvm23-clangformat.patch
+qt-creator-20.0.2-perfparser-zstd.patch
 
 %files
 %doc README.md
@@ -123,6 +122,8 @@ qt-creator-20.0.1-perfparser-zstd.patch
 %{_libexecdir}/qtcreator/sdktool
 %{_libexecdir}/qtcreator/perfparser
 %{_libexecdir}/qtcreator/perf2text
+%{_libexecdir}/qtcreator/dlwrapper
+%{_libexecdir}/qtcreator/qmltraceviewer
 %if 1
 # Broken because of go vendoring
 %{_libexecdir}/qtcreator/cmdbridge-darwin-amd64
@@ -172,7 +173,7 @@ Qt Creator documentation.
 #------------------------------------------------------------------------------
 
 %prep
-%autosetup -p1 -n qt-creator-opensource-src-20.0.1
+%autosetup -p1 -n qt-creator-opensource-src-%{version}%{?beta:-%{beta}}
 %if "%{_lib}" != "lib"
 sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
 %endif

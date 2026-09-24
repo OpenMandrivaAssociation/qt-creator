@@ -1,5 +1,5 @@
---- qt-creator-opensource-src-20.0.1/src/plugins/clangformat/clangformatutils.cpp
-+++ qt-creator-opensource-src-20.0.1/src/plugins/clangformat/clangformatutils.cpp
+--- qt-creator-opensource-src-20.0.2/src/plugins/clangformat/clangformatutils.cpp
++++ qt-creator-opensource-src-20.0.2/src/plugins/clangformat/clangformatutils.cpp
 @@ -67,7 +67,9 @@ clang::format::FormatStyle calculateQtcS
      style.AllowShortBlocksOnASingleLine = FormatStyle::SBS_Never;
      style.AllowShortCaseLabelsOnASingleLine = false;

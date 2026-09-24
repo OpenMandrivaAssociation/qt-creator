@@ -1,5 +1,5 @@
---- qt-creator-opensource-src-20.0.1/src/tools/perfparser/app/CMakeLists.txt
-+++ qt-creator-opensource-src-20.0.1/src/tools/perfparser/app/CMakeLists.txt
+--- qt-creator-opensource-src-20.0.2/src/tools/perfparser/app/CMakeLists.txt
++++ qt-creator-opensource-src-20.0.2/src/tools/perfparser/app/CMakeLists.txt
 @@ -42,3 +42,7 @@ add_qtc_executable(perfparser
    SOURCES
      main.cpp
