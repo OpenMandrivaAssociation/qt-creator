@@ -8,8 +8,8 @@
 
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
-Version:	20.0.2
-Release:	%{?beta:0.%{beta}.}2
+Version:	21.0.0
+Release:	%{?beta:0.%{beta}.}1
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		https://qt.digia.com/products/developer-tools
@@ -19,7 +19,7 @@ Source0:	http://download.qt-project.org/development_releases/qtcreator/%(echo %{
 %else
 Source0:	https://download.qt.io/official_releases/qtcreator/%(echo %{version} |cut -d. -f1-2)/%{version}/qt-creator-opensource-src-%{version}.tar.xz
 %endif
-# cd src/libs/gocmdbridge/server
+# cd src/libs/gocmdbridge/server/go
 # go mod vendor
 # tar cJf gocmdbridge-server-vendor.tar.xz vendor
 Source1:	gocmdbridge-server-vendor.tar.xz
@@ -27,6 +27,7 @@ Source2:	Nokia-QtCreator.xml
 Source10:	%{name}.rpmlintrc
 BuildRequires:	cmake ninja
 BuildRequires:	pkgconfig(libelf)
+BuildRequires:	pkgconfig(libdw)
 BuildRequires:	cmake(Clang)
 BuildRequires:	cmake(LLVM)
 BuildRequires:	cmake(Polly)
@@ -64,6 +65,8 @@ BuildRequires:	cmake(Qt6WebEngineCore)
 BuildRequires:	cmake(Qt6WebEngineCoreTools)
 BuildRequires:	cmake(Qt6WebEngineWidgets)
 BuildRequires:	cmake(Qt6WebSockets)
+BuildRequires:	cmake(Qt6CanvasPainter)
+BuildRequires:	cmake(Qt6HttpServer)
 BuildRequires:	cmake(Qt6Quick3DTools)
 BuildRequires:	cmake(Qt6ShaderTools)
 BuildRequires:	cmake(Qt6ShaderToolsTools)
@@ -104,10 +107,6 @@ Qt Creator (previously known as Project Greenhouse) is a new, lightweight,
 cross-platform integrated development environment (IDE) designed to make
 development with the Qt application framework even faster and easier.
 
-%patchlist
-qt-creator-20.0.2-llvm23-clangformat.patch
-qt-creator-20.0.2-perfparser-zstd.patch
-
 %files
 %doc README.md
 %{_sysconfdir}/ld.so.conf.d/qt-creator.conf
@@ -120,20 +119,20 @@ qt-creator-20.0.2-perfparser-zstd.patch
 %{_libexecdir}/qtcreator/qtpromaker
 %{_libexecdir}/qtcreator/qtc-askpass
 %{_libexecdir}/qtcreator/sdktool
-%{_libexecdir}/qtcreator/perfparser
-%{_libexecdir}/qtcreator/perf2text
 %{_libexecdir}/qtcreator/dlwrapper
-%{_libexecdir}/qtcreator/qmltraceviewer
-%if 1
-# Broken because of go vendoring
 %{_libexecdir}/qtcreator/cmdbridge-darwin-amd64
 %{_libexecdir}/qtcreator/cmdbridge-darwin-arm64
+%{_libexecdir}/qtcreator/cmdbridge-freebsd-amd64
+%{_libexecdir}/qtcreator/cmdbridge-freebsd-arm64
 %{_libexecdir}/qtcreator/cmdbridge-linux-amd64
 %{_libexecdir}/qtcreator/cmdbridge-linux-arm
 %{_libexecdir}/qtcreator/cmdbridge-linux-arm64
+%{_libexecdir}/qtcreator/cmdbridge-netbsd-amd64
+%{_libexecdir}/qtcreator/cmdbridge-netbsd-arm64
+%{_libexecdir}/qtcreator/cmdbridge-openbsd-amd64
+%{_libexecdir}/qtcreator/cmdbridge-openbsd-arm64
 %{_libexecdir}/qtcreator/cmdbridge-windows-amd64.exe
 %{_libexecdir}/qtcreator/cmdbridge-windows-arm64.exe
-%endif
 
 %{_libexecdir}/qtcreator/qmlpuppet-%{version}
 %{_libdir}/qtcreator
@@ -177,7 +176,7 @@ Qt Creator documentation.
 %if "%{_lib}" != "lib"
 sed -i -e 's,/lib",/%{_lib}",' bin/qtcreator.sh
 %endif
-cd src/libs/gocmdbridge/server
+cd src/libs/gocmdbridge/server/go
 tar xf %{S:1}
 cd -
 #export CC=gcc
@@ -186,10 +185,9 @@ cd -
 %ifarch %{aarch64}
 	-DBUILD_WITH_PCH:BOOL=OFF \
 %endif
-	-DBUILD_CPLUSPLUS_TOOLS:BOOL=ON \
 	-DCLANGTOOLING_LINK_CLANG_DYLIB:BOOL=ON \
-	-DLITEHTML_UTF8:BOOL=ON \
 	-Djournald=ON \
+	-DCMDBRIDGE_BUILD_VENDOR_MODE=ON \
 	-G Ninja
 
 %build
