@@ -1,6 +1,9 @@
 # qt-creator doesn't always work with current Botan versions
 %bcond_with sys_botan
 %define __brp_python_bytecompile %{nil}
+# cmdbridge ships binaries for remote hosts. The OpenBSD ones are
+# dynamically linked to libpthread.so, which is not a host library.
+%global __requires_exclude_from ^%{_libexecdir}/qtcreator/cmdbridge-(darwin|freebsd|netbsd|openbsd|windows)
 
 %bcond_with docs
 
@@ -101,6 +104,20 @@ Suggests:	qt6-devel
 Suggests:	%{name}-doc
 Requires:	%{name}-common
 Provides:	%{name}-ui = %{EVRD}
+# QML Designer imports these from /usr/share/qtcreator. The C++ plugins
+# register the Backend modules in-process, and a few qmldir files omit
+# the module line, so the QML dependency generator does not provide them.
+Provides:	qml(AssetsLibraryBackend)
+Provides:	qml(ContentLibraryBackend)
+Provides:	qml(EffectComposerBackend)
+Provides:	qml(ItemLibraryBackend)
+Provides:	qml(LandingPage)
+Provides:	qml(MaterialBrowserBackend)
+Provides:	qml(ScriptsEditor)
+Provides:	qml(StatesEditor)
+Provides:	qml(StatesEditorBackend)
+Provides:	qml(StudioFonts)
+Provides:	qml(WebFetcher)
 
 %description
 Qt Creator (previously known as Project Greenhouse) is a new, lightweight,
