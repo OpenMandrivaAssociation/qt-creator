@@ -12,7 +12,7 @@
 Summary:	Qt Creator is a lightweight, cross-platform IDE
 Name:		qt-creator
 Version:	21.0.0
-Release:	%{?beta:0.%{beta}.}1
+Release:	%{?beta:0.%{beta}.}2
 License:	LGPLv2+ and MIT
 Group:		Development/KDE and Qt
 Url:		https://qt.digia.com/products/developer-tools
@@ -107,6 +107,8 @@ Provides:	%{name}-ui = %{EVRD}
 # QML Designer imports these from /usr/share/qtcreator. The C++ plugins
 # register the Backend modules in-process, and a few qmldir files omit
 # the module line, so the QML dependency generator does not provide them.
+# qmldeps sees this registration in the x86_64 plugin and misses it on aarch64.
+Provides:	qml(ConnectionsEditorEditorBackend)
 Provides:	qml(AssetsLibraryBackend)
 Provides:	qml(ContentLibraryBackend)
 Provides:	qml(EffectComposerBackend)
